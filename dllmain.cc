@@ -35,10 +35,10 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID)
 		config::Load(dir);
 
 		if (gConfig.mLogging) {
-			logger::Open(dir + L"\\SDInputFix.log");
+			logger::Open(dir + L"\\SDIMEFix.log");
 		}
 
-		LOG("SDInputFix loaded (DisableIME=%d BlockLanguageSwitch=%d OverlayTextInput=%d OverlayImeUI=%d)",
+		LOG("SDIMEFix loaded (DisableIME=%d BlockLanguageSwitch=%d OverlayTextInput=%d OverlayImeUI=%d)",
 			gConfig.mDisableIME, gConfig.mBlockLanguageSwitch, gConfig.mOverlayTextInput, gConfig.mOverlayImeUI);
 
 		ime::Install(module);

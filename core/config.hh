@@ -16,7 +16,7 @@ struct Config
 	// While typing into an overlay, hide the IME's own popups and draw composition/candidates inside the overlay.
 	bool mOverlayImeUI = true;
 
-	// Write SDInputFix.log next to the .asi.
+	// Write SDIMEFix.log next to the .asi.
 	bool mLogging = true;
 };
 
@@ -24,6 +24,6 @@ extern Config gConfig;
 
 namespace config
 {
-	// Loads <dir>\SDInputFix.ini, writing a default one if it doesn't exist.
+	// Loads <dir>\SDIMEFix.ini, writing a default one if it doesn't exist.
 	void Load(const std::wstring& dir);
 }

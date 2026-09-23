@@ -504,7 +504,7 @@ namespace ime
 	bool Install(HMODULE self)
 	{
 		gSelf = self;
-		gEnforceMsg = RegisterWindowMessageW(L"SDInputFix.EnforceIME");
+		gEnforceMsg = RegisterWindowMessageW(L"SDIMEFix.EnforceIME");
 
 		if (!PatchImport(GetModuleHandleW(nullptr), "USER32.dll", "CreateWindowExA", reinterpret_cast<void*>(&HookedCreateWindowExA), reinterpret_cast<void**>(&gCreateWindowExA)))
 		{

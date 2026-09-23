@@ -14,7 +14,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{209d6bfc-bb30-4995-a607-01d579a4d501}</ProjectGuid>
-    <RootNamespace>SDInputFix</RootNamespace>
+    <RootNamespace>SDIMEFix</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -47,7 +47,7 @@
     <ReShadeDir>$(MSBuildThisFileDirectory)..\..\reference\reshade\</ReShadeDir>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetName>SDInputFix</TargetName>
+    <TargetName>SDIMEFix</TargetName>
     <TargetExt>.asi</TargetExt>
     <IncludePath>$(MSBuildThisFileDirectory);$(IncludePath)</IncludePath>
     <ExternalIncludePath>$(ReShadeDir)include;$(ReShadeDir)deps\imgui;$(ExternalIncludePath)</ExternalIncludePath>
@@ -66,6 +66,7 @@
       <ErrorReporting>None</ErrorReporting>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

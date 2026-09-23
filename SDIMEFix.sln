@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.37710.0 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDInputFix", "SDInputFix.vcxproj", "{209D6BFC-BB30-4995-A607-01D579A4D501}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDIMEFix", "SDIMEFix.vcxproj", "{209D6BFC-BB30-4995-A607-01D579A4D501}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

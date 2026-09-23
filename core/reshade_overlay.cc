@@ -14,7 +14,7 @@
 
 static_assert(IMGUI_VERSION_NUM == 19250, "ImGui headers must match the ReShade build (6.8.0 uses 1.92.5)");
 
-extern "C" __declspec(dllexport) const char* NAME = "SDInputFix";
+extern "C" __declspec(dllexport) const char* NAME = "SDIMEFix";
 extern "C" __declspec(dllexport) const char* DESCRIPTION = "Keeps the IME from kicking Sleeping Dogs out of fullscreen, and lets you type Chinese into ReShade.";
 
 // ReShade draws its UI inside the game's swap chain, using the game window for

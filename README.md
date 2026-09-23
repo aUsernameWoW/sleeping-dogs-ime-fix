@@ -1,4 +1,4 @@
-# Sleeping Dogs: Definitive Edition — IME fix (SDInputFix)
+# Sleeping Dogs: Definitive Edition — IME fix (SDIMEFix)
 
 [![Build](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/actions/workflows/build.yml/badge.svg)](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/actions/workflows/build.yml)
 
@@ -26,16 +26,20 @@ Minecraft 1.7.10 的 "InputFix" 类 mod 一样：
 
 ### 安装
 
-把 `SDInputFix.asi` 放进游戏的 `plugins\` 文件夹。首次启动会生成带注释的 `SDInputFix.ini`（中英双语），
-每项功能都有开关；日志写到 `SDInputFix.log`。
+从 [Releases](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/releases) 下载最新的 `SDIMEFix.asi`
+（`main` 上每次提交都会自动编译、测试并发布为预发布版），放进游戏的 `plugins\` 文件夹。首次启动会生成带注释的
+`SDIMEFix.ini`（中英双语），每项功能都有开关；日志写到 `SDIMEFix.log`。
+
+本 mod 以前叫 SDInputFix。从旧版升级时，删掉 `plugins\SDInputFix.asi`（否则两个版本会同时加载），并把
+`SDInputFix.ini` 改名为 `SDIMEFix.ini` 以保留设置。
 
 ### 编译
 
-Visual Studio 2022（v143），Windows SDK 10.0.26100。项目需要放在工作区的 `mods\SDInputFix`，工作区里要有
+Visual Studio 2022（v143），Windows SDK 10.0.26100。项目需要放在工作区的 `mods\SDIMEFix`，工作区里要有
 `reference\reshade`：ReShade v6.8.0 源码，并初始化 `deps\imgui` 子模块。设计说明见 `CLAUDE.md`（英文）。
 
 GitHub Actions 会对推送和 PR 按同样的布局编译并运行自动测试，依赖的确切版本见 `.github/workflows/build.yml`。
-每次运行的 Artifacts 里有编译好的 `SDInputFix.asi` 和 `.pdb`。
+推送到 `main` 且测试通过的构建会发布为预发布版 `build-<N>`，附带 `SDIMEFix.asi` 和 `.pdb`。
 
 与 Square Enix、United Front Games、Microsoft 均无关联。
 
@@ -61,17 +65,22 @@ Status: done, verified in-game (exclusive fullscreen, Microsoft Pinyin, ReShade 
 
 ### Install
 
-Copy `SDInputFix.asi` into the game's `plugins\` folder. On first start it writes a commented
-`SDInputFix.ini` (bilingual, Chinese/English) with switches for each feature, and logs to `SDInputFix.log`.
+Download the latest `SDIMEFix.asi` from [Releases](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/releases)
+(every commit on `main` is built, tested and published as a prerelease) and copy it into the game's
+`plugins\` folder. On first start it writes a commented `SDIMEFix.ini` (bilingual, Chinese/English) with
+switches for each feature, and logs to `SDIMEFix.log`.
+
+This mod used to be called SDInputFix. When upgrading, delete `plugins\SDInputFix.asi` (otherwise both
+versions load) and rename `SDInputFix.ini` to `SDIMEFix.ini` to keep your settings.
 
 ### Building
 
-Visual Studio 2022 (v143), Windows SDK 10.0.26100. The project expects to sit at `mods\SDInputFix` in a
+Visual Studio 2022 (v143), Windows SDK 10.0.26100. The project expects to sit at `mods\SDIMEFix` in a
 workspace that has `reference\reshade`: ReShade v6.8.0 source, with the `deps\imgui` submodule initialized.
 See `CLAUDE.md` for design notes.
 
 GitHub Actions builds pushes and pull requests in that same layout and runs the automated tests;
-`.github/workflows/build.yml` lists the exact dependency versions. Each run's artifacts hold the built
-`SDInputFix.asi` and its `.pdb`.
+`.github/workflows/build.yml` lists the exact dependency versions. Builds of `main` that pass are published
+as prereleases `build-<N>` with `SDIMEFix.asi` and its `.pdb`.
 
 Not affiliated with Square Enix, United Front Games or Microsoft.

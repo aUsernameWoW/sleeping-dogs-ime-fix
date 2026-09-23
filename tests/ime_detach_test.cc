@@ -1,5 +1,5 @@
 // Mimics the game: an ANSI window created via the exe's CreateWindowExA import
-// and pumped with PeekMessageA. Loads SDInputFix.asi (argv[1]) and checks the
+// and pumped with PeekMessageA. Loads SDIMEFix.asi (argv[1]) and checks the
 // IME stays detached and layout-switch requests never reach the window.
 // Exit code 0 = pass.
 #include <Windows.h>
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 {
 	if (argc < 2 || !LoadLibraryA(argv[1]))
 	{
-		printf("usage: ime_detach_test <path to SDInputFix.asi> (load failed: %lu)\n", GetLastError());
+		printf("usage: ime_detach_test <path to SDIMEFix.asi> (load failed: %lu)\n", GetLastError());
 		return 2;
 	}
 

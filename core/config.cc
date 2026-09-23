@@ -9,7 +9,7 @@ Config gConfig;
 namespace config
 {
 	static constexpr char kDefaultIni[] =
-		"; SDInputFix 配置 / configuration\n"
+		"; SDIMEFix 配置 / configuration\n"
 		"; 1 = 开启 (on), 0 = 关闭 (off)\n"
 		"\n"
 		"[General]\n"
@@ -31,8 +31,8 @@ namespace config
 		"ImeUI = 1\n"
 		"\n"
 		"[Debug]\n"
-		"; 在 .asi 旁边写 SDInputFix.log，用于排查是什么窗口抢走了焦点。\n"
-		"; Write SDInputFix.log (records which window stole focus).\n"
+		"; 在 .asi 旁边写 SDIMEFix.log，用于排查是什么窗口抢走了焦点。\n"
+		"; Write SDIMEFix.log (records which window stole focus).\n"
 		"Logging = 1\n";
 
 	static bool ReadBool(const wchar_t* path, const wchar_t* section, const wchar_t* key, bool fallback)
@@ -42,7 +42,7 @@ namespace config
 
 	void Load(const std::wstring& dir)
 	{
-		const std::wstring path = dir + L"\\SDInputFix.ini";
+		const std::wstring path = dir + L"\\SDIMEFix.ini";
 
 		if (GetFileAttributesW(path.c_str()) == INVALID_FILE_ATTRIBUTES)
 		{

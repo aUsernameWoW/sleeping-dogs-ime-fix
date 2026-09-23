@@ -1,7 +1,7 @@
 // MANUAL: sends real Win+Space keystrokes to the desktop while a fake game
 // window is in the foreground. Not run by tools\build.ps1 -Test, because a
 // failure really switches your input method / opens the Start menu.
-// Run it yourself: win_space_manual.exe <path to SDInputFix.asi>
+// Run it yourself: win_space_manual.exe <path to SDIMEFix.asi>
 // Exit code 0 = pass.
 #include <Windows.h>
 #include <cstdio>
@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 {
 	if (argc < 2 || !LoadLibraryA(argv[1]))
 	{
-		printf("usage: win_space_manual <path to SDInputFix.asi>\n");
+		printf("usage: win_space_manual <path to SDIMEFix.asi>\n");
 		return 2;
 	}
 

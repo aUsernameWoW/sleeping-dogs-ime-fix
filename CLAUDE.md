@@ -1,6 +1,6 @@
-# SDInputFix
+# SDIMEFix
 
-Like the Minecraft 1.7.10 "InputFix" mods, for Sleeping Dogs DE: a Chinese IME can no longer knock the game
+Called SDInputFix until 2026-09-23 (renamed so it isn't mistaken for a controller/input mod). Like the Minecraft 1.7.10 "InputFix" mods, for Sleeping Dogs DE: a Chinese IME can no longer knock the game
 out of exclusive fullscreen, and Chinese can still be typed into ReShade's overlay. Status: done, verified
 in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 
@@ -24,17 +24,18 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 - `core/keyboard_guard.*` — `WH_KEYBOARD_LL` hook on its own thread for Win+Space.
 - `core/reshade_overlay.*` — ReShade add-on glue: `reshade_open_overlay` / `reshade_overlay` events,
   ImGui drawing, feeding committed text to ImGui.
-- `core/config.*`, `core/log.*` — `SDInputFix.ini` / `SDInputFix.log` next to the `.asi`.
+- `core/config.*`, `core/log.*` — `SDIMEFix.ini` / `SDIMEFix.log` next to the `.asi`.
 - `tests/ime_detach_test.cc` (automated), `tests/win_space_manual.cc` (sends real keys; run by hand).
 - `.github/workflows/build.yml` — CI on GitHub Actions (`windows-2025-vs2026`): recreates the workspace
-  layout with ReShade at the pinned v6.8.0 commit (+ `deps/imgui`), builds Release x64 with `-warnAsError`,
-  runs `tests\*_test.cc` like `build.ps1 -Test`, uploads `.asi` + `.pdb`. Actions are pinned by commit SHA;
-  `.github/dependabot.yml` proposes updates monthly.
+  layout with ReShade at the pinned v6.8.0 commit (`RESHADE_REF`; sparse: `include` + `deps/imgui`, cached
+  under the pin), builds Release x64 with `-warnAsError`, runs `tests\*_test.cc` like `build.ps1 -Test`,
+  uploads `.asi` + `.pdb`. On `main` a second job publishes them as prerelease `build-<N>` (N = commit
+  count). Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
 
 ## Design decisions and why (don't undo without reason)
 
 - **IMM calls only work on the window's own thread.** Everything that changes the association runs on the
-  game thread: other threads post a registered `SDInputFix.EnforceIME` message that `GetMsgProc` handles and
+  game thread: other threads post a registered `SDIMEFix.EnforceIME` message that `GetMsgProc` handles and
   turns into `WM_NULL`. `SetDetached()` records state *before* `ImmAssociateContextEx`, which synchronously
   sends `WM_IME_SETCONTEXT` (whose `ISC_SHOWUI*` bits the subclass must already strip).
 - **The subclass uses `SetWindowLongPtrA`** so the window stays ANSI; `W` would silently make it Unicode.
@@ -58,11 +59,11 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 Check out the matching ReShade tag in `reference\reshade`, `git submodule update --init deps/imgui`, then
 update the `IMGUI_VERSION_NUM` assert and re-verify `ImGuiInputEvent` / `InputEventsQueue` /
 `PlatformImeDataPrev` against `imgui.cpp`'s `AddInputCharacter`. Pin the same ReShade commit in
-`.github/workflows/build.yml` (CI takes ImGui from it). ReShade refuses add-ons built against a
+`.github/workflows/build.yml` (`RESHADE_REF`; CI takes ImGui from it). ReShade refuses add-ons built against a
 different ImGui version (`ReShadeGetImGuiFunctionTable` returns null → logged as "ReShade not found (or
 incompatible)").
 
-## Config (`SDInputFix.ini`)
+## Config (`SDIMEFix.ini`)
 
 `[General] DisableIME`, `BlockLanguageSwitch` · `[Overlay] TextInput`, `ImeUI` · `[Debug] Logging`.
 While the overlay has text input, the log records every `WM_IME_*` message; that's intentionally verbose
