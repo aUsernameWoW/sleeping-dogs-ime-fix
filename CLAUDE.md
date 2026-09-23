@@ -31,6 +31,9 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
   under the pin), builds Release x64 with `-warnAsError`, runs `tests\*_test.cc` like `build.ps1 -Test`,
   uploads `.asi` + `.pdb`. On `main` a second job publishes them with `THIRD-PARTY-NOTICES.md` (licenses of
   the code compiled in; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count). Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
+- `.claude/settings.json` — Claude Code plugins for this repo: `clangd-lsp` (reads
+  `build\compile_commands.json` from the workspace's `tools\compile-commands.ps1`), `microsoft-docs`
+  (IMM32/Win32 reference), `ida-pro-mcp` (game binary).
 
 ## Design decisions and why (don't undo without reason)
 
