@@ -1,5 +1,7 @@
 # Sleeping Dogs: Definitive Edition — IME fix (SDInputFix)
 
+[![Build](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/actions/workflows/build.yml/badge.svg)](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/actions/workflows/build.yml)
+
 [中文](#中文) | [English](#english)
 
 ## 中文
@@ -31,6 +33,9 @@ Minecraft 1.7.10 的 "InputFix" 类 mod 一样：
 
 Visual Studio 2022（v143），Windows SDK 10.0.26100。项目需要放在工作区的 `mods\SDInputFix`，工作区里要有
 `reference\reshade`：ReShade v6.8.0 源码，并初始化 `deps\imgui` 子模块。设计说明见 `CLAUDE.md`（英文）。
+
+GitHub Actions 会对推送和 PR 按同样的布局编译并运行自动测试，依赖的确切版本见 `.github/workflows/build.yml`。
+每次运行的 Artifacts 里有编译好的 `SDInputFix.asi` 和 `.pdb`。
 
 与 Square Enix、United Front Games、Microsoft 均无关联。
 
@@ -64,5 +69,9 @@ Copy `SDInputFix.asi` into the game's `plugins\` folder. On first start it write
 Visual Studio 2022 (v143), Windows SDK 10.0.26100. The project expects to sit at `mods\SDInputFix` in a
 workspace that has `reference\reshade`: ReShade v6.8.0 source, with the `deps\imgui` submodule initialized.
 See `CLAUDE.md` for design notes.
+
+GitHub Actions builds pushes and pull requests in that same layout and runs the automated tests;
+`.github/workflows/build.yml` lists the exact dependency versions. Each run's artifacts hold the built
+`SDInputFix.asi` and its `.pdb`.
 
 Not affiliated with Square Enix, United Front Games or Microsoft.

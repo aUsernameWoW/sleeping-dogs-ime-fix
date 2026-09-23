@@ -26,6 +26,10 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
   ImGui drawing, feeding committed text to ImGui.
 - `core/config.*`, `core/log.*` — `SDInputFix.ini` / `SDInputFix.log` next to the `.asi`.
 - `tests/ime_detach_test.cc` (automated), `tests/win_space_manual.cc` (sends real keys; run by hand).
+- `.github/workflows/build.yml` — CI on GitHub Actions (`windows-2025-vs2026`): recreates the workspace
+  layout with ReShade at the pinned v6.8.0 commit (+ `deps/imgui`), builds Release x64 with `-warnAsError`,
+  runs `tests\*_test.cc` like `build.ps1 -Test`, uploads `.asi` + `.pdb`. Actions are pinned by commit SHA;
+  `.github/dependabot.yml` proposes updates monthly.
 
 ## Design decisions and why (don't undo without reason)
 
@@ -53,7 +57,8 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 
 Check out the matching ReShade tag in `reference\reshade`, `git submodule update --init deps/imgui`, then
 update the `IMGUI_VERSION_NUM` assert and re-verify `ImGuiInputEvent` / `InputEventsQueue` /
-`PlatformImeDataPrev` against `imgui.cpp`'s `AddInputCharacter`. ReShade refuses add-ons built against a
+`PlatformImeDataPrev` against `imgui.cpp`'s `AddInputCharacter`. Pin the same ReShade commit in
+`.github/workflows/build.yml` (CI takes ImGui from it). ReShade refuses add-ons built against a
 different ImGui version (`ReShadeGetImGuiFunctionTable` returns null → logged as "ReShade not found (or
 incompatible)").
 
