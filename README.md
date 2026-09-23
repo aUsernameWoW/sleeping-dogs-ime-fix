@@ -41,6 +41,8 @@ Visual Studio 2022（v143），Windows SDK 10.0.26100。项目需要放在工作
 GitHub Actions 会对推送和 PR 按同样的布局编译并运行自动测试，依赖的确切版本见 `.github/workflows/build.yml`。
 推送到 `main` 且测试通过的构建会发布为预发布版 `build-<N>`，附带 `SDIMEFix.asi` 和 `.pdb`。
 
+编译进 `SDIMEFix.asi` 的第三方代码及其许可证见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
+
 与 Square Enix、United Front Games、Microsoft 均无关联。
 
 ## English
@@ -82,5 +84,8 @@ See `CLAUDE.md` for design notes.
 GitHub Actions builds pushes and pull requests in that same layout and runs the automated tests;
 `.github/workflows/build.yml` lists the exact dependency versions. Builds of `main` that pass are published
 as prereleases `build-<N>` with `SDIMEFix.asi` and its `.pdb`.
+
+The third-party code compiled into `SDIMEFix.asi` and its licenses are listed in
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
 Not affiliated with Square Enix, United Front Games or Microsoft.

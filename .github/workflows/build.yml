@@ -151,7 +151,7 @@ jobs:
               echo "::error::$tag already exists for another commit"
               exit 1
             fi
-            gh release upload "$tag" dist/SDIMEFix.asi dist/SDIMEFix.pdb --clobber
+            gh release upload "$tag" dist/SDIMEFix.asi dist/SDIMEFix.pdb THIRD-PARTY-NOTICES.md --clobber
             exit 0
           fi
           prev=$(git describe --tags --abbrev=0 --match 'build-*' HEAD 2> /dev/null || true)
@@ -168,5 +168,5 @@ jobs:
               git log -n 10 --format='- %s (%h)'
             fi
           } > notes.md
-          gh release create "$tag" dist/SDIMEFix.asi dist/SDIMEFix.pdb --prerelease --target "$GITHUB_SHA" \
+          gh release create "$tag" dist/SDIMEFix.asi dist/SDIMEFix.pdb THIRD-PARTY-NOTICES.md --prerelease --target "$GITHUB_SHA" \
             --title "SDIMEFix build $n ($short)" --notes-file notes.md

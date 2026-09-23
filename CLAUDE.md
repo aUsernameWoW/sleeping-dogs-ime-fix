@@ -29,8 +29,8 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 - `.github/workflows/build.yml` — CI on GitHub Actions (`windows-2025-vs2026`): recreates the workspace
   layout with ReShade at the pinned v6.8.0 commit (`RESHADE_REF`; sparse: `include` + `deps/imgui`, cached
   under the pin), builds Release x64 with `-warnAsError`, runs `tests\*_test.cc` like `build.ps1 -Test`,
-  uploads `.asi` + `.pdb`. On `main` a second job publishes them as prerelease `build-<N>` (N = commit
-  count). Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
+  uploads `.asi` + `.pdb`. On `main` a second job publishes them with `THIRD-PARTY-NOTICES.md` (licenses of
+  the code compiled in; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count). Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
 
 ## Design decisions and why (don't undo without reason)
 
