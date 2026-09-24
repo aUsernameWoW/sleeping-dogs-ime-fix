@@ -31,6 +31,12 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
   under the pin), builds Release x64 with `-warnAsError`, runs `tests\*_test.cc` like `build.ps1 -Test`,
   uploads `.asi` + `.pdb`. On `main` a second job publishes them with `THIRD-PARTY-NOTICES.md` (licenses of
   the code compiled in; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count). Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
+- `assets/` — `banner.png` (README header and the GitHub social preview, 1280×640, keep under 1 MB) and
+  `icon.png` (512×512, transparent corners), both rendered from `assets/branding/logo.html`: open it with
+  `?export=banner` / `?export=icon` in headless Edge (`--screenshot --window-size=W,H
+  --default-background-color=00000000 --virtual-time-budget=10000`). The look is redrawn from the game's
+  menu UI in CSS/SVG (the page lists which textures); no game art is embedded. Copy says the game lacked IME
+  support; don't phrase it as fixing ReShade.
 - `.claude/settings.json` — Claude Code plugins for this repo: `clangd-lsp` (reads
   `build\compile_commands.json` from the workspace's `tools\compile-commands.ps1`), `microsoft-docs`
   (IMM32/Win32 reference), `ida-pro-mcp` (game binary).

@@ -1,20 +1,22 @@
 # Sleeping Dogs: Definitive Edition — IME fix (SDIMEFix)
 
+![SDIMEFix: 中文輸入 in glowing amber above a pinyin input box whose first candidate, 中文, is highlighted](assets/banner.png)
+
 [![Build](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/actions/workflows/build.yml/badge.svg)](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/actions/workflows/build.yml)
 
 [中文](#中文) | [English](#english)
 
 ## 中文
 
-修复中文（及其他 CJK）输入法把《热血无赖：终极版》踢出独占全屏的问题，并且可以在 ReShade 的界面里正常输入中文。
+补上《热血无赖：终极版》没有考虑到的输入法支持：中文（及其他 CJK）输入法不再把游戏踢出独占全屏，游戏内的界面也能使用输入法候选。
 
-开着中文输入法时，在游戏里按 Shift 或打字会弹出输入法窗口，把游戏从独占全屏踢回窗口模式。本 mod 的思路和
-Minecraft 1.7.10 的 "InputFix" 类 mod 一样：
+这个游戏在设计时没有考虑输入法：开着中文输入法时，在游戏里按 Shift 或打字会弹出输入法窗口，把游戏从独占全屏
+踢回窗口模式。本 mod 的思路和 Minecraft 1.7.10 的 "InputFix" 类 mod 一样：
 
 - **游戏内**：让输入法和游戏窗口脱钩，中文模式下按 Shift / WASD 都不会再弹出输入法界面。
 - **热键**：游戏在前台时，屏蔽切换输入法的热键（Ctrl+Shift、Alt+Shift、Win+Space）。
-- **ReShade**：当 ReShade 的文本框处于激活状态时，重新接上输入法；拼音组字和候选词直接画在 ReShade 界面里，
-  不用退出全屏就能在搜索框里输入中文。
+- **游戏内界面（可选，需要 ReShade）**：在 ReShade 的文本框里打字时重新接上输入法，拼音组字和候选词直接显示在
+  界面里，不用退出全屏就能用输入法打字。
 
 状态：已完成，已在游戏内验证（独占全屏、微软拼音、ReShade 6.8.0）。
 
@@ -22,7 +24,8 @@ Minecraft 1.7.10 的 "InputFix" 类 mod 一样：
 
 - 《热血无赖：终极版》（Steam），Windows 10/11 x64。
 - [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader)（例如作为 `dinput8.dll`）。
-- 可选：支持插件的 [ReShade](https://reshade.me) 6.8.0，用于在 ReShade 界面里输入中文。
+- 可选：支持插件的 [ReShade](https://reshade.me) 6.8.0，只有在 ReShade 界面里输入中文这一项需要；
+  不装 ReShade 时其余功能照常工作。
 
 ### 安装
 
@@ -47,15 +50,19 @@ GitHub Actions 会对推送和 PR 按同样的布局编译并运行自动测试�
 
 ## English
 
-With a Chinese (or other CJK) IME active, pressing Shift or typing in Sleeping Dogs: Definitive Edition pops
-up IME windows, which knock the game out of exclusive fullscreen. Like the Minecraft 1.7.10 "InputFix" mods,
-this mod:
+Adds the IME support Sleeping Dogs: Definitive Edition never had: Chinese (and other CJK) IMEs no longer
+knock the game out of exclusive fullscreen, and in-game overlays get IME composition and candidates.
+
+The game was not designed with IMEs in mind: with a Chinese IME active, pressing Shift or typing in the game
+pops up IME windows, which knock the game out of exclusive fullscreen. Like the Minecraft 1.7.10 "InputFix"
+mods, this mod:
 
 - **In game**: detaches the IME from the game window, so Shift / WASD in Chinese mode never shows IME UI.
 - **Hotkeys**: blocks input-language switching (Ctrl+Shift, Alt+Shift, Win+Space) while the game is in
   front.
-- **ReShade**: re-attaches the IME while a ReShade text box is active. The composition and candidate list are
-  drawn inside the overlay, so you can type Chinese into ReShade's search box without leaving fullscreen.
+- **In-game overlays (optional, needs ReShade)**: while a ReShade text box is active, the IME is re-attached
+  and its composition and candidate list are shown inside the overlay, so you can type with the IME without
+  leaving fullscreen.
 
 Status: done, verified in-game (exclusive fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 
@@ -63,7 +70,8 @@ Status: done, verified in-game (exclusive fullscreen, Microsoft Pinyin, ReShade 
 
 - Sleeping Dogs: Definitive Edition (Steam), Windows 10/11 x64.
 - [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) (e.g. as `dinput8.dll`).
-- Optional: [ReShade](https://reshade.me) 6.8.0 with add-on support, for typing into the overlay.
+- Optional: [ReShade](https://reshade.me) 6.8.0 with add-on support, only for typing into its overlay;
+  everything else works without it.
 
 ### Install
 

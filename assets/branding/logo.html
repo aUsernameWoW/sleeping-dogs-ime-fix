@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SDIMEFix 游戏原生风格</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Noto+Sans+SC:wght@500;700&family=Noto+Sans+TC:wght@500;700;900&family=Teko:wght@500;600&display=swap">
+<style>
+  /* Single dark look on purpose: it is the game's menu world. */
+  :root {
+    color-scheme: dark;
+    --ground: #0f0d0c;
+    --panel: #171412;
+    --line: #2b2521;
+    --text: #ece6dc;
+    --muted: #9a9187;
+    --amber-core: #ffe6b0;
+    --amber: #ffb45a;
+    --amber-glow: #ff8a2a;
+    --slot-fill: #3a140a;
+    --seal: #c61f2c;
+    --ink: #050303;
+    --latin: 'Teko', 'Bahnschrift SemiCondensed', 'Arial Narrow', sans-serif;
+    --cond: 'Barlow Condensed', 'Bahnschrift', 'Arial Narrow', sans-serif;
+    --tc: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+    --sc: 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  }
+  html { background: var(--ground); }
+  body {
+    background: var(--ground); color: var(--text);
+    font: 15px/1.6 var(--sc);
+    padding-inline: clamp(16px, 4vw, 48px); padding-block: 32px 56px;
+  }
+  main { max-width: 1180px; margin: 0 auto; display: grid; gap: 40px; }
+  header { display: grid; gap: 6px; }
+  h1 { font: 600 34px/1 var(--latin); letter-spacing: .04em; margin: 0; text-wrap: balance; }
+  h1 em { font-style: normal; color: var(--amber); }
+  header p, .note { color: var(--muted); margin: 0; max-width: 68ch; }
+  h2 { font: 500 22px/1 var(--latin); letter-spacing: .08em; text-transform: uppercase; color: var(--amber); margin: 0 0 14px; }
+  figure { margin: 0; }
+  figcaption { color: var(--muted); font: 500 14px/1.4 var(--cond); letter-spacing: .06em; text-transform: uppercase; margin-top: 10px; }
+
+  /* A fixed-size artboard scaled to its frame, so the art is authored at export pixels. */
+  .frame { position: relative; width: 100%; max-width: 100%; overflow: hidden; border: 1px solid var(--line); background: #000; }
+  .frame > [data-stage] { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+
+  /* ------------------------------------------------ banner 1280x640 */
+  .banner {
+    width: 1280px; height: 640px; overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 30% 45%, #1d1714 0%, #110e0c 55%, #070605 100%);
+    font-family: var(--sc);
+  }
+  .bokeh { position: absolute; border-radius: 50%; filter: blur(26px); }
+  .grain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .16; mix-blend-mode: soft-light; pointer-events: none; }
+
+  .ink { position: absolute; background: var(--ink); filter: url(#rough); }
+  .ink.main { left: 34px; top: 92px; width: 760px; height: 238px; transform: rotate(-1.2deg); box-shadow: 0 0 60px 20px rgba(0,0,0,.55); }
+  .ink.dry { left: 84px; top: 318px; width: 520px; height: 40px; opacity: .8; transform: rotate(.6deg); filter: url(#rough-dry); }
+
+  .cchar {
+    position: absolute; left: 92px; top: 104px; margin: 0;
+    font: 700 150px/1.2 var(--tc); letter-spacing: .06em; color: var(--amber-core);
+    text-shadow:
+      0 0 2px #fff4dc, 0 0 10px var(--amber), 0 0 26px var(--amber-glow),
+      0 0 54px rgba(255, 122, 30, .55), 0 0 110px rgba(255, 90, 20, .35);
+    animation: ignite 1.6s steps(1, end) both;
+  }
+  @keyframes ignite {
+    0% { opacity: .35; } 8% { opacity: 1; } 12% { opacity: .45; } 20% { opacity: 1; }
+    26% { opacity: .6; } 30%, 100% { opacity: 1; }
+  }
+
+  .wordmark {
+    position: absolute; left: 98px; top: 356px; margin: 0;
+    font: 600 112px/1 var(--latin); letter-spacing: .03em; color: var(--text);
+    text-shadow: 0 3px 0 #000, 0 0 30px rgba(0,0,0,.8);
+  }
+  .wordmark .ime {
+    color: var(--amber-core);
+    text-shadow: 0 0 2px #fff4dc, 0 0 12px var(--amber), 0 0 30px var(--amber-glow), 0 3px 0 #000;
+  }
+  .seal {
+    position: absolute; left: 556px; top: 368px; width: 70px; height: 70px;
+    display: grid; place-items: center; transform: rotate(-5deg);
+    background: var(--seal); color: #fbe9e3; border-radius: 6px;
+    font: 900 50px/1 var(--tc);
+    box-shadow: inset 0 0 0 3px #fbe9e3, inset 0 0 0 6px var(--seal), 0 6px 18px rgba(0,0,0,.6);
+    filter: url(#rough-seal);
+  }
+  .ribbon {
+    position: absolute; left: 92px; top: 470px; padding: 5px 22px 1px;
+    background: linear-gradient(#d3263a, #a3121f); color: #fff;
+    font: 500 27px/1 var(--latin); letter-spacing: .14em; text-transform: uppercase;
+    clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+    box-shadow: 0 4px 0 #5c0a12;
+  }
+  .tagline {
+    position: absolute; left: 96px; top: 522px; margin: 0;
+    font: 500 22px/1.4 var(--cond); color: #b3a99d; letter-spacing: .02em;
+  }
+  .tagline span { display: block; white-space: nowrap; }
+  .tagline .zh { font: 500 20px/1.6 var(--sc); color: #cfc5b8; letter-spacing: .03em; }
+
+  /* The IME drawn with the game's own UI parts. */
+  .ime-ui { position: absolute; left: 790px; top: 196px; width: 420px; display: grid; gap: 16px; }
+  .ime-label { font: 500 22px/1 var(--latin); letter-spacing: .18em; color: #c98a45; text-transform: uppercase; margin: 0 0 -6px 4px; }
+  .slot {
+    position: relative; height: 66px; border-radius: 12px;
+    border: 2px solid var(--amber); background: rgba(24, 10, 5, .88);
+    box-shadow: 0 0 6px var(--amber), 0 0 22px rgba(255, 138, 42, .75), inset 0 0 18px rgba(255, 138, 42, .28);
+    display: flex; align-items: center; gap: 16px; padding-inline: 20px;
+  }
+  .slot svg { flex: none; filter: drop-shadow(0 0 4px var(--amber-glow)); }
+  .pinyin {
+    font: 500 36px/1 var(--cond); color: #f6ecda; letter-spacing: .04em;
+    border-bottom: 2px dotted #c9b89c; padding-bottom: 3px;
+  }
+  .caret { width: 3px; height: 36px; background: var(--amber-core); box-shadow: 0 0 8px var(--amber); margin-left: -12px; animation: blink 1.06s steps(1, end) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .cands {
+    height: 62px; border-radius: 12px; border: 2px solid var(--amber);
+    background: linear-gradient(#461a0d, var(--slot-fill));
+    box-shadow: 0 0 6px var(--amber), 0 0 20px rgba(255, 138, 42, .6);
+    display: flex; align-items: center; gap: 6px; padding-inline: 7px;
+  }
+  .cand { display: flex; align-items: baseline; gap: 8px; padding: 6px 12px 7px; border-radius: 8px; font: 500 30px/1 var(--sc); color: #f1d9b2; }
+  .cand b { font: 600 26px/1 var(--latin); color: #d8964f; }
+  .cand.on {
+    background: var(--amber-core); color: #3a1706;
+    box-shadow: 0 0 6px #fff1cf, 0 0 18px var(--amber), 0 0 34px rgba(255, 122, 30, .55);
+  }
+  .cand.on b { color: #7a3a0e; }
+  .pager { margin-left: auto; margin-right: 8px; font: 600 30px/1 var(--latin); color: var(--amber); letter-spacing: .12em; text-shadow: 0 0 8px var(--amber-glow); }
+
+  /* UI-scale calibration corners from the options menu. */
+  .corner { position: absolute; width: 64px; height: 64px; }
+  .corner::before, .corner::after {
+    content: ''; position: absolute; left: 0; top: 0; background: var(--amber-core);
+    box-shadow: 0 0 5px var(--amber), 0 0 16px var(--amber-glow);
+  }
+  .corner::before { width: 64px; height: 5px; }
+  .corner::after { width: 5px; height: 64px; }
+  .corner.tl { left: 26px; top: 26px; }
+  .corner.tr { right: 26px; top: 26px; transform: scaleX(-1); }
+  .corner.bl { left: 26px; bottom: 26px; transform: scaleY(-1); }
+  .corner.br { right: 26px; bottom: 26px; transform: scale(-1, -1); }
+
+  /* ------------------------------------------------ icon 512x512 */
+  .icons { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 28px; }
+  .icons figure { display: grid; justify-items: center; }
+  .icon {
+    width: 512px; height: 512px; border-radius: 112px; overflow: hidden; position: relative;
+    background: radial-gradient(80% 80% at 50% 42%, #3d170b 0%, #1a0b06 62%, #0b0605 100%);
+  }
+  .icon .rim {
+    position: absolute; inset: 34px; border-radius: 82px; border: 11px solid var(--amber-core);
+    box-shadow: 0 0 10px var(--amber), 0 0 34px var(--amber-glow), inset 0 0 10px var(--amber), inset 0 0 40px rgba(255, 122, 30, .45);
+  }
+  .icon .glyph {
+    position: absolute; inset: 0; display: grid; place-items: center; padding-bottom: 14px;
+    font: 900 300px/1 var(--tc); color: var(--amber-core);
+    text-shadow: 0 0 4px #fff4dc, 0 0 18px var(--amber), 0 0 44px var(--amber-glow), 0 0 90px rgba(255, 110, 20, .5);
+  }
+  .icon-frame { border-radius: 22%; border: 0; background: transparent; overflow: visible; }
+
+  .refs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 28px; margin: 0; padding: 0; list-style: none; }
+  .refs li { border-top: 1px solid var(--line); padding-top: 10px; }
+  .refs b { display: block; font: 500 19px/1.2 var(--latin); letter-spacing: .06em; color: var(--text); }
+  .refs code { font: 13px/1.4 ui-monospace, Consolas, monospace; color: var(--amber); }
+  .refs span { color: var(--muted); font-size: 14px; }
+
+  html.export, html.export body { background: transparent; padding: 0; margin: 0; overflow: hidden; }
+  html.export * { animation: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cchar, .caret { animation: none; }
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="rough" x="-10%" y="-20%" width="120%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.06" numOctaves="4" seed="11" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="46" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="rough-dry" x="-10%" y="-60%" width="120%" height="220%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.02 0.4" numOctaves="3" seed="4" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="30" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="rough-seal" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="3" seed="3" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -5 3.7" result="holes"/>
+    <feComposite in="SourceGraphic" in2="holes" operator="in"/>
+  </filter>
+  <filter id="grain-f">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+</svg>
+
+<main>
+  <header>
+    <h1>SDIMEFix · <em>游戏原生风格</em></h1>
+    <p>用《热血无赖》自己的菜单部件拼出的 LOGO：琥珀辉光标题字、墨迹底板、霓虹描边输入框、UI 校准角框。右侧是"输入法在这个游戏里本该长的样子"：组字和候选词直接画在游戏内的界面里。横幅文案只说游戏缺了输入法支持，不点名 ReShade。</p>
+  </header>
+
+  <section>
+    <h2>横幅</h2>
+    <figure>
+      <div class="frame" style="aspect-ratio: 2 / 1">
+        <div class="banner" data-stage="1280" role="img"
+          aria-label="SDIMEFix 横幅：墨迹底板上的琥珀辉光大字「中文輸入」，下方是 SDIMEFIX 字标和红色印章「修」，底部说明「补上游戏没考虑到的输入法支持」，右侧是琥珀描边的输入框，打着 zhongwen，候选栏第一项「中文」高亮。">
+          <div class="bokeh" style="left:900px;top:-60px;width:260px;height:260px;background:rgba(255,140,40,.20)"></div>
+          <div class="bokeh" style="left:1110px;top:120px;width:170px;height:170px;background:rgba(214,42,74,.20)"></div>
+          <div class="bokeh" style="left:700px;top:470px;width:220px;height:220px;background:rgba(51,198,245,.10)"></div>
+          <div class="bokeh" style="left:1040px;top:470px;width:300px;height:300px;background:rgba(255,120,30,.12)"></div>
+          <div class="bokeh" style="left:-80px;top:430px;width:260px;height:260px;background:rgba(214,42,74,.10)"></div>
+
+          <div class="ink main"></div>
+          <div class="ink dry"></div>
+
+          <p class="cchar">中文輸入</p>
+          <p class="wordmark">SD<span class="ime">IME</span>FIX</p>
+          <div class="seal">修</div>
+          <div class="ribbon">Sleeping Dogs: Definitive Edition mod</div>
+          <p class="tagline">
+            <span class="zh">补上游戏没考虑到的输入法支持：不再被踢出全屏，游戏内的界面也能使用输入法候选</span>
+            <span>The IME support the game never had · stays in fullscreen · IME candidates in in-game overlays</span>
+          </p>
+
+          <div class="ime-ui">
+            <p class="ime-label">Search · 搜索</p>
+            <div class="slot">
+              <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="12.5" cy="12.5" r="8.5" fill="none" stroke="#ffe6b0" stroke-width="3.2"/><path d="M19 19l7.5 7.5" stroke="#ffe6b0" stroke-width="3.6" stroke-linecap="round"/></svg>
+              <span class="pinyin">zhongwen</span><span class="caret"></span>
+            </div>
+            <div class="cands">
+              <span class="cand on"><b>1</b>中文</span>
+              <span class="cand"><b>2</b>中</span>
+              <span class="cand"><b>3</b>种</span>
+              <span class="cand"><b>4</b>重</span>
+              <span class="pager">‹ ›</span>
+            </div>
+          </div>
+
+          <div class="corner tl"></div><div class="corner tr"></div>
+          <div class="corner bl"></div><div class="corner br"></div>
+          <svg class="grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grain-f)"/></svg>
+        </div>
+      </div>
+      <figcaption>GitHub 社交预览 · 1280 × 640</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>图标</h2>
+    <div class="icons">
+      <figure>
+        <div class="frame icon-frame" style="width:192px;height:192px"><div class="icon" data-stage="512" role="img" aria-label="SDIMEFix 图标：暗红底上琥珀霓虹圆角框，中间一个发光的「中」字。"><div class="rim"></div><div class="glyph">中</div></div></div>
+        <figcaption>192 px</figcaption>
+      </figure>
+      <figure>
+        <div class="frame icon-frame" style="width:64px;height:64px"><div class="icon" data-stage="512" aria-hidden="true"><div class="rim"></div><div class="glyph">中</div></div></div>
+        <figcaption>64 px</figcaption>
+      </figure>
+      <figure>
+        <div class="frame icon-frame" style="width:32px;height:32px"><div class="icon" data-stage="512" aria-hidden="true"><div class="rim"></div><div class="glyph">中</div></div></div>
+        <figcaption>32 px</figcaption>
+      </figure>
+    </div>
+    <p class="note" style="margin-top:14px">同一个图形缩到 32 px 仍然认得出，可以做 GitHub 头像、Nexus 图标或者 favicon。</p>
+  </section>
+
+  <section>
+    <h2>取材</h2>
+    <ul class="refs">
+      <li><b>标题字</b><code>CCHAR_*</code><br><span>菜单标题的琥珀辉光繁体字，这里写「中文輸入」</span></li>
+      <li><b>输入框</b><code>BACKING_9SLICE_SLOT / SLOTWIDE</code><br><span>琥珀霓虹描边、暗红褐填充的圆角框</span></li>
+      <li><b>选中的候选</b><code>BACKING_9SLICE_FILL</code><br><span>奶油色实心高亮，游戏里表示当前选项</span></li>
+      <li><b>墨迹底板</b><code>BACKING_9SLICE_LARGE / GRIT</code><br><span>标题后面粗糙的黑色笔刷</span></li>
+      <li><b>角框</b><code>BACKING_UISCALECORNER</code><br><span>画面校准时屏幕四角的 L 形辉光</span></li>
+      <li><b>飘带</b><code>SD_LOGO_TEXT_DE</code><br><span>只借用红色斜切飘带的形式，不用官方字标和盾牌</span></li>
+    </ul>
+  </section>
+</main>
+
+<script>
+(() => {
+  // ?export=banner|icon renders one artboard alone at 1:1 on a transparent page, for headless screenshots.
+  const exportName = new URLSearchParams(location.search).get('export');
+  if (exportName) {
+    const art = document.querySelector(exportName === 'icon' ? '.icon' : '.banner');
+    const defs = document.querySelector('svg[aria-hidden="true"]');
+    art.style.transform = 'none';
+    art.style.position = 'relative';
+    document.documentElement.classList.add('export');
+    document.body.replaceChildren(defs, art);
+    return;
+  }
+
+  // Scale each fixed-size artboard to the width of its frame.
+  const stages = document.querySelectorAll('[data-stage]');
+  const fit = () => {
+    for (const el of stages) {
+      const frame = el.parentElement;
+      el.style.transform = 'scale(' + frame.clientWidth / Number(el.dataset.stage) + ')';
+    }
+  };
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(fit);
+    for (const el of stages) ro.observe(el.parentElement);
+  }
+  window.addEventListener('resize', fit);
+  fit();
+})();
+</script>
