@@ -32,12 +32,20 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
   uploads `.asi` + `.pdb`. On `main` a second job publishes them with `THIRD-PARTY-NOTICES.md` (licenses of
   the code compiled in; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count).
   A third job uploads the same build to [Nexus Mods](https://www.nexusmods.com/sleepingdogsdefinitiveedition/mods/172)
-  as the next version of the main file (`Nexus-Mods/upload-action`, v3 API): a zip with
-  `plugins\SDIMEFix.asi` + the notices, version `build-<N>`, the commit subjects since the version Nexus has
-  as changelog; the previous version is archived. Repo variables `NEXUS_MOD_ID` / `NEXUS_FILE_ID` (v3 IDs from
-  the file's "Advanced" dialog, not the `172` in the URL) and secret `NEXUSMODS_API_KEY`; without
-  `NEXUS_FILE_ID` the job is skipped, and a build Nexus already has is not uploaded again.
-  Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
+  as the next version of the "SDIMEFix GitHub CI Build" file (`Nexus-Mods/upload-action`, v3 API): a zip with
+  `plugins\SDIMEFix.asi` + the notices, version `build-<N>`, previous version archived.
+- `.github/workflows/nexus-release.yml` — a **release** is a `build-<N>` prerelease un-ticked as prerelease on
+  GitHub (nothing is rebuilt); the `release: released` event uploads its assets to the main file "SDIMEFix"
+  on Nexus (primary download, sets the mod version, changelog = commits since the previous full release).
+  The first release creates that file through the API (upload-action can only add versions) and prints its
+  ID. Release events run the workflow file of the released commit, so builds older than this file need
+  "Run workflow" with the tag.
+- Nexus settings: repo variables `NEXUS_MOD_ID`, `NEXUS_CI_FILE_ID`, `NEXUS_RELEASE_FILE_ID` (v3 IDs from a
+  file's "Advanced" dialog: "Unique Mod ID" / "File ID", not the `172` in the URL) and secret
+  `NEXUSMODS_API_KEY`. Without `NEXUS_CI_FILE_ID` the CI upload is skipped. Until `NEXUS_RELEASE_FILE_ID`
+  is set the CI builds are the main file and carry the mod version + changelog; after that they go to
+  Optional. Versions Nexus already has are not uploaded again, so re-runs are safe.
+- Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
 - `assets/` — `banner.png` (README header and the GitHub social preview, 1280×640, keep under 1 MB) and
   `icon.png` (512×512, transparent corners), both rendered from `assets/branding/logo.html`: open it with
   `?export=banner` / `?export=icon` in headless Edge (`--screenshot --window-size=W,H
