@@ -170,3 +170,93 @@ jobs:
           } > notes.md
           gh release create "$tag" dist/SDIMEFix.asi dist/SDIMEFix.pdb THIRD-PARTY-NOTICES.md --prerelease --target "$GITHUB_SHA" \
             --title "SDIMEFix build $n ($short)" --notes-file notes.md
+
+  # Each new prerelease also becomes the latest version of the mod's main file on Nexus Mods, through the v3
+  # upload API. Configured per repository, so the job is the same in every mod:
+  #   vars.NEXUS_MOD_ID, vars.NEXUS_FILE_ID  the v3 IDs of the mod and of its main file (the update chain, not
+  #                                          one upload): Files tab of the mod page -> the file -> "Advanced"
+  #   secrets.NEXUSMODS_API_KEY              a personal API key (nexusmods.com/settings/api-keys)
+  # Without NEXUS_FILE_ID the job is skipped.
+  nexus:
+    name: Nexus Mods
+    needs: prerelease
+    if: vars.NEXUS_FILE_ID != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXUS_API: https://api.nexusmods.com/v3
+      NEXUS_MOD_ID: ${{ vars.NEXUS_MOD_ID }}
+      NEXUS_FILE_ID: ${{ vars.NEXUS_FILE_ID }}
+    steps:
+      # Full history and tags: the build number and the change list since the version Nexus has.
+      - name: Check out history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download SDIMEFix.asi
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: SDIMEFix
+          path: dist
+
+      # Nexus keeps every upload as a new version, so a re-run of a build it already has uploads nothing.
+      # The zip unpacks into the game folder. The .pdb stays on the GitHub prerelease of the same build.
+      - name: Package
+        id: package
+        env:
+          NEXUSMODS_API_KEY: ${{ secrets.NEXUSMODS_API_KEY }}
+        run: |
+          if [ -z "$NEXUSMODS_API_KEY" ]; then
+            echo "::error::vars.NEXUS_FILE_ID is set but secrets.NEXUSMODS_API_KEY is not"
+            exit 1
+          fi
+          n=$(git rev-list --count HEAD)
+          version="build-$n"
+          short=$(git rev-parse --short HEAD)
+          curl -fsS --retry 3 -H "apikey: $NEXUSMODS_API_KEY" -H "User-Agent: $GITHUB_REPOSITORY" \
+            "$NEXUS_API/mod-files/$NEXUS_FILE_ID/versions" > versions.json
+          if jq -e --arg v "$version" 'any(.data.versions[]; .version == $v)' versions.json > /dev/null; then
+            echo "::notice::Nexus Mods already has $version"
+            exit 0
+          fi
+          latest=$(jq -r '.data.versions | max_by(.uploaded_at) | .version // empty' versions.json)
+
+          mkdir -p package/plugins
+          cp dist/SDIMEFix.asi package/plugins/
+          cp THIRD-PARTY-NOTICES.md package/plugins/SDIMEFix-THIRD-PARTY-NOTICES.md
+          (cd package && zip -r -X "../SDIMEFix-$version.zip" plugins)
+
+          # Changes since the version Nexus has, or since the previous build if that is not a build tag.
+          if git rev-parse -q --verify "refs/tags/$latest" > /dev/null; then
+            since=$latest
+          else
+            since=$(git describe --tags --abbrev=0 --match 'build-*' HEAD^ 2> /dev/null || true)
+          fi
+          {
+            echo "version=$version"
+            echo "name=SDIMEFix GitHub CI Build $n"
+            echo "description=Automatic build of $short on main, untested in game. Unpack into the game folder (puts SDIMEFix.asi into plugins). Source and .pdb: https://github.com/$GITHUB_REPOSITORY/releases/tag/$version"
+            delimiter="EOF_$(openssl rand -hex 8)"
+            echo "changelog<<$delimiter"
+            if [ -n "$since" ]; then git log --format='%s' "$since..HEAD"; else git log -n 10 --format='%s'; fi
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+          echo "upload=true" >> "$GITHUB_OUTPUT"
+
+      # The previous version moves to the file's archive; the mod's version shown on the page follows.
+      - name: Upload to Nexus Mods
+        if: steps.package.outputs.upload == 'true'
+        uses: Nexus-Mods/upload-action@c96019556046053aa26044b44396cd38929daf23 # v1.0.0-beta.10
+        with:
+          api_key: ${{ secrets.NEXUSMODS_API_KEY }}
+          mod_id: ${{ vars.NEXUS_MOD_ID }}
+          file_id: ${{ vars.NEXUS_FILE_ID }}
+          filename: SDIMEFix-${{ steps.package.outputs.version }}.zip
+          version: ${{ steps.package.outputs.version }}
+          display_name: ${{ steps.package.outputs.name }}
+          description: ${{ steps.package.outputs.description }}
+          changelog: ${{ steps.package.outputs.changelog }}
+          archive_existing_version: true
+          update_mod_version: true

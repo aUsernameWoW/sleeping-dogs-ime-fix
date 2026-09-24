@@ -30,7 +30,14 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
   layout with ReShade at the pinned v6.8.0 commit (`RESHADE_REF`; sparse: `include` + `deps/imgui`, cached
   under the pin), builds Release x64 with `-warnAsError`, runs `tests\*_test.cc` like `build.ps1 -Test`,
   uploads `.asi` + `.pdb`. On `main` a second job publishes them with `THIRD-PARTY-NOTICES.md` (licenses of
-  the code compiled in; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count). Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
+  the code compiled in; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count).
+  A third job uploads the same build to [Nexus Mods](https://www.nexusmods.com/sleepingdogsdefinitiveedition/mods/172)
+  as the next version of the main file (`Nexus-Mods/upload-action`, v3 API): a zip with
+  `plugins\SDIMEFix.asi` + the notices, version `build-<N>`, the commit subjects since the version Nexus has
+  as changelog; the previous version is archived. Repo variables `NEXUS_MOD_ID` / `NEXUS_FILE_ID` (v3 IDs from
+  the file's "Advanced" dialog, not the `172` in the URL) and secret `NEXUSMODS_API_KEY`; without
+  `NEXUS_FILE_ID` the job is skipped, and a build Nexus already has is not uploaded again.
+  Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
 - `assets/` — `banner.png` (README header and the GitHub social preview, 1280×640, keep under 1 MB) and
   `icon.png` (512×512, transparent corners), both rendered from `assets/branding/logo.html`: open it with
   `?export=banner` / `?export=icon` in headless Edge (`--screenshot --window-size=W,H
