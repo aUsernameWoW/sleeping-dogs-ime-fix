@@ -37,14 +37,16 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 - `.github/workflows/nexus-release.yml` — a **release** is a `build-<N>` prerelease un-ticked as prerelease on
   GitHub (nothing is rebuilt); the `release: released` event uploads its assets to the main file "SDIMEFix"
   on Nexus (primary download, sets the mod version, changelog = commits since the previous full release).
-  The first release creates that file through the API (upload-action can only add versions) and prints its
-  ID. Release events run the workflow file of the released commit, so builds older than this file need
+  The first release creates that file through the API (upload-action can only add versions; multipart
+  upload, because the single-part presigned URL signs an undisclosed `Content-Disposition`). The ID it
+  returns is the upload's legacy uid, not the chain ID, so `NEXUS_RELEASE_FILE_ID` is copied from the site. Release events run the workflow file of the released commit, so builds older than this file need
   "Run workflow" with the tag.
 - Nexus settings: repo variables `NEXUS_MOD_ID`, `NEXUS_CI_FILE_ID`, `NEXUS_RELEASE_FILE_ID` (v3 IDs from a
   file's "Advanced" dialog: "Unique Mod ID" / "File ID", not the `172` in the URL) and secret
   `NEXUSMODS_API_KEY`. Without `NEXUS_CI_FILE_ID` the CI upload is skipped. Until `NEXUS_RELEASE_FILE_ID`
   is set the CI builds are the main file and carry the mod version + changelog; after that they go to
-  Optional. Versions Nexus already has are not uploaded again, so re-runs are safe.
+  Optional. Versions Nexus already has are not uploaded again, so re-runs are safe. Current values: mod
+  `14933601288364`, CI file `8021523`, release file `8021700`.
 - Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
 - `assets/` — `banner.png` (README header and the GitHub social preview, 1280×640, keep under 1 MB) and
   `icon.png` (512×512, transparent corners), both rendered from `assets/branding/logo.html`: open it with

@@ -147,9 +147,12 @@ jobs:
               primary_mod_manager_download: true, allow_mod_manager_download: true,
               show_requirements_pop_up: false, update_mod_version: true}' |
             api -X POST -H 'Content-Type: application/json' --data @- "$NEXUS_API/mod-files" > file.json
-          file_id=$(jq -r .data.id file.json)
-          echo "::notice::Created Nexus release file $file_id; set vars.NEXUS_RELEASE_FILE_ID=$file_id"
-          echo "Created the Nexus Mods release file \`$file_id\`: set the repository variable \`NEXUS_RELEASE_FILE_ID\` to it." >> "$GITHUB_STEP_SUMMARY"
+          # The response's id is that of the upload (the legacy file uid), not of the update chain that
+          # POST /mod-files/{id}/versions takes, so the variable has to be copied from the site.
+          jq . file.json
+          msg="Created the Nexus Mods release file \"$FILE_NAME\". Set vars.NEXUS_RELEASE_FILE_ID to its \"File ID\" (Advanced dialog on the Files tab)."
+          echo "::notice::$msg"
+          echo "$msg" >> "$GITHUB_STEP_SUMMARY"
 
       # The previous release moves to the file's archive; the mod's version shown on the page follows.
       - name: Upload to Nexus Mods
