@@ -105,7 +105,8 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       # First release: upload-action only adds versions to an existing file, so create the file through
-      # the API (single-part upload, fine below 100 MiB). It becomes the mod's primary download.
+      # the API. It becomes the mod's primary download. The upload is multipart like upload-action's: the
+      # single-part presigned URL also signs a Content-Disposition value the API does not disclose.
       - name: Create the release file on Nexus Mods
         if: steps.package.outputs.zip != '' && steps.package.outputs.file_id == ''
         env:
@@ -113,11 +114,23 @@ jobs:
           DESCRIPTION: ${{ steps.package.outputs.description }}
         run: |
           api() { curl -sS --fail-with-body --retry 3 -H "apikey: $NEXUSMODS_API_KEY" -H "User-Agent: $GITHUB_REPOSITORY" "$@"; }
-          jq -n --arg f "$ZIP" --argjson s "$(stat -c %s "$ZIP")" '{filename: $f, size_bytes: $s}' |
-            api -X POST -H 'Content-Type: application/json' --data @- "$NEXUS_API/uploads" > upload.json
+          jq -n --arg f "$ZIP" --arg s "$(stat -c %s "$ZIP")" '{filename: $f, size_bytes: $s}' |
+            api -X POST -H 'Content-Type: application/json' --data @- "$NEXUS_API/uploads/multipart" > upload.json
           upload_id=$(jq -r .data.id upload.json)
-          curl -sS --fail-with-body -X PUT -H 'Content-Type: application/octet-stream' --upload-file "$ZIP" \
-            "$(jq -r .data.presigned_url upload.json)"
+          part_size=$(jq -r .data.part_size_bytes upload.json)
+          split -b "$part_size" -d -a 4 "$ZIP" part.
+          parts=
+          i=0
+          for url in $(jq -r '.data.part_presigned_urls[]' upload.json); do
+            file=$(printf 'part.%04d' "$i")
+            i=$((i + 1))
+            etag=$(curl -sS --fail-with-body -X PUT -H 'Content-Type: application/octet-stream' --upload-file "$file" \
+              -D - -o /dev/null "$url" | tr -d '\r' | sed -n 's/^[Ee][Tt][Aa][Gg]: *//p' | tr -d '"')
+            [ -n "$etag" ] || { echo "::error::No ETag for part $i"; exit 1; }
+            parts="$parts<Part><PartNumber>$i</PartNumber><ETag>$etag</ETag></Part>"
+          done
+          curl -sS --fail-with-body -X POST -H 'Content-Type: application/xml' \
+            --data "<CompleteMultipartUpload>$parts</CompleteMultipartUpload>" "$(jq -r .data.complete_presigned_url upload.json)"
           api -X POST "$NEXUS_API/uploads/$upload_id/finalise" > /dev/null
           for i in $(seq 40); do
             state=$(api "$NEXUS_API/uploads/$upload_id" | jq -r .data.state)
