@@ -29,13 +29,23 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 - `.github/workflows/build.yml` — CI on GitHub Actions (`windows-2025-vs2026`): recreates the workspace
   layout with ReShade at the pinned v6.8.0 commit (`RESHADE_REF`; sparse: `include` + `deps/imgui`, cached
   under the pin), builds Release x64 with `-warnAsError`, runs `tests\*_test.cc` like `build.ps1 -Test`,
-  uploads `.asi` + `.pdb`. On `main` a second job publishes them with `THIRD-PARTY-NOTICES.md` (licenses of
-  the code compiled in; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count).
-  A third job uploads the same build to [Nexus Mods](https://www.nexusmods.com/sleepingdogsdefinitiveedition/mods/172)
-  as the next version of the "SDIMEFix GitHub CI Build" file (`Nexus-Mods/upload-action`, v3 API): a zip with
-  `plugins\SDIMEFix.asi` + the notices, version `build-<N>`, previous version archived.
+  uploads `.asi` + `.pdb`. A `package` job (PRs too) builds `SDIMEFix.zip`, the players' download: the
+  Ultimate ASI Loader x64 release as `dinput8.dll` (URL + SHA-256 pinned in `.github/asi-loader.env`) and
+  `plugins\SDIMEFix.asi` + `plugins\SDIMEFix-THIRD-PARTY-NOTICES.md`. On `main` the next job publishes the
+  zip, `.asi`, `.pdb` and `THIRD-PARTY-NOTICES.md` (licenses of the code compiled in and of the bundled
+  loader; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count). Plain asset
+  names matter: README.md links `releases/latest/download/SDIMEFix.zip`. A last job uploads that zip to
+  [Nexus Mods](https://www.nexusmods.com/sleepingdogsdefinitiveedition/mods/172) as the next version of the
+  "SDIMEFix GitHub CI Build" file (`Nexus-Mods/upload-action`, v3 API), version `build-<N>`, previous version
+  archived.
+- `.github/workflows/asi-loader.yml` — Dependabot stand-in for the bundled loader (Dependabot has no
+  ecosystem for GitHub release assets): monthly, if Ultimate ASI Loader has a release newer than the pin and
+  a week old, it hashes the asset (must match GitHub's digest), pushes branch `asi-loader/<tag>`, opens a PR
+  and dispatches `build.yml` on it (workflow-token PRs start no `pull_request` runs). The pin lives outside
+  `.github/workflows` because the workflow token can't push workflow files. Needs the repo setting "Allow
+  GitHub Actions to create and approve pull requests". A closed PR's branch marks its version as skipped.
 - `.github/workflows/nexus-release.yml` — a **release** is a `build-<N>` prerelease un-ticked as prerelease on
-  GitHub (nothing is rebuilt); the `release: released` event uploads its assets to the main file "SDIMEFix"
+  GitHub (nothing is rebuilt); the `release: released` event uploads its `SDIMEFix.zip` to the main file "SDIMEFix"
   on Nexus (primary download, sets the mod version, changelog = commits since the previous full release).
   The first release creates that file through the API (upload-action can only add versions; multipart
   upload, because the single-part presigned URL signs an undisclosed `Content-Disposition`). The ID it
@@ -48,6 +58,10 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
   Optional. Versions Nexus already has are not uploaded again, so re-runs are safe. Current values: mod
   `14933601288364`, CI file `8021523`, release file `8021700`.
 - Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
+- `README.md` — for players with no modding experience: what it fixes, step-by-step install of
+  `SDIMEFix.zip` from Steam's "Browse local files", how to check it loaded (`SDIMEFix.ini` appears), FAQ.
+  Keep it free of build/CI detail. `ADVANCED.md` — everything else: how it works, downloads, existing loader
+  setups, settings table, Wine, building, CI. Both bilingual (Chinese first).
 - `assets/` — `banner.png` (README header and the GitHub social preview, 1280×640, keep under 1 MB) and
   `icon.png` (512×512, transparent corners), both rendered from `assets/branding/logo.html`: open it with
   `?export=banner` / `?export=icon` in headless Edge (`--screenshot --window-size=W,H

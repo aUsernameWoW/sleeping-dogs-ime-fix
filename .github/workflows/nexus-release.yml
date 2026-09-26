@@ -1,6 +1,6 @@
 # Publishes a full release to the mod's main file on Nexus Mods (build.yml sends every prerelease to the
 # "GitHub CI Build" file). A release is a build-<N> prerelease turned into a full release on GitHub: edit it
-# and untick "Set as a pre-release". Its SDIMEFix.asi is uploaded as built and tested by CI, nothing is
+# and untick "Set as a pre-release". Its SDIMEFix.zip is uploaded as built and tested by CI, nothing is
 # rebuilt. Settings (vars.NEXUS_*, secrets.NEXUSMODS_API_KEY) are described in build.yml.
 #
 # A release event runs this file as it is in the released commit, so promoting a build older than this
@@ -79,12 +79,12 @@ jobs:
             fi
           fi
 
-          gh release download "$TAG" -p SDIMEFix.asi -p THIRD-PARTY-NOTICES.md -D dist
-          mkdir -p package/plugins
-          cp dist/SDIMEFix.asi package/plugins/
-          cp dist/THIRD-PARTY-NOTICES.md package/plugins/SDIMEFix-THIRD-PARTY-NOTICES.md
+          # The zip players download from GitHub, packaged by build.yml (the mod + the ASI loader).
           zip="SDIMEFix-$TAG.zip"
-          (cd package && zip -r -X "../$zip" plugins)
+          if ! gh release download "$TAG" -p SDIMEFix.zip -O "$zip"; then
+            echo "::error::$TAG has no SDIMEFix.zip (built before build.yml packaged one); release a newer build"
+            exit 1
+          fi
 
           # The CI builds carried the changelog until the first release, so that one adds none; later
           # releases list what changed since the previous one (the nearest full release in the history).
@@ -97,7 +97,7 @@ jobs:
           {
             echo "file_id=$file_id"
             echo "zip=$zip"
-            echo "description=Release $TAG. Unpack into the game folder (puts SDIMEFix.asi into plugins). Source and .pdb: https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG"
+            echo "description=Release $TAG. Unpack into the game folder: dinput8.dll (Ultimate ASI Loader) and plugins\\SDIMEFix.asi. Source and .pdb: https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG"
             delimiter="EOF_$(openssl rand -hex 8)"
             echo "changelog<<$delimiter"
             [ -n "$prev" ] && git log --format='%s' "$prev..$TAG"
