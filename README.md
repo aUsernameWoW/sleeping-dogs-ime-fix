@@ -14,10 +14,8 @@
 
 它不改动游戏原有的文件，也不影响存档，删掉就能卸载。
 
-> 适用于**任何版本**的《热血无赖：终极版》：不管哪个平台买的、游戏更新到哪个版本都能用，游戏更新后也不用等
-> mod 跟着更新（它不依赖游戏程序内部的代码位置）。需要 Windows 10/11 64 位。
->
-> 只想换设置、已经装过其他 mod，或者想自己编译，请看 [ADVANCED.md](ADVANCED.md)。
+> 适用于**任何版本**的《热血无赖：终极版》，Windows 10/11 64 位。只想换设置、已经装过其他 mod，或者想自己
+> 编译，请看 [ADVANCED.md](ADVANCED.md)。
 
 ### 安装（大约两分钟）
 
@@ -133,11 +131,8 @@ pops up the IME's input box and drops the game out of fullscreen. With this mod:
 
 It changes none of the game's own files and doesn't touch your saves; deleting it uninstalls it.
 
-> Works with **any version** of Sleeping Dogs: Definitive Edition: whichever store you bought it from and
-> whatever game update you're on, and it doesn't need an update of its own when the game is patched (it
-> doesn't depend on the game's internal code layout). Needs Windows 10/11 64-bit.
->
-> To change settings, add it to an existing mod setup or build it yourself, see [ADVANCED.md](ADVANCED.md).
+> Works with **any version** of Sleeping Dogs: Definitive Edition, Windows 10/11 64-bit. To change settings,
+> add it to an existing mod setup or build it yourself, see [ADVANCED.md](ADVANCED.md).
 
 ### Installing (about two minutes)
 
