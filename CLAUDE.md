@@ -27,10 +27,12 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 - `core/config.*`, `core/log.*` — `SDIMEFix.ini` / `SDIMEFix.log` next to the `.asi`.
 - `tests/ime_detach_test.cc` (automated), `tests/win_space_manual.cc` (sends real keys; run by hand).
 - `.github/workflows/build.yml` — CI on GitHub Actions (`windows-2025-vs2026`): recreates the workspace
-  layout with ReShade at the pinned v6.8.0 commit (`RESHADE_REF`; sparse: `include` + `deps/imgui`, cached
-  under the pin), builds Release x64 with `-warnAsError`, runs `tests\*_test.cc` like `build.ps1 -Test`,
-  uploads `.asi` + `.pdb`. A `package` job (PRs too) builds `SDIMEFix.zip`, the players' download: the
-  Ultimate ASI Loader x64 release as `dinput8.dll` (URL + SHA-256 pinned in `.github/asi-loader.env`) and
+  layout with ReShade at the commit pinned in `.github/reference.env` (`RESHADE_REF` = v6.8.0, read into
+  `GITHUB_ENV`; sparse: `include` + `deps/imgui`, cached under the pin), builds Release x64 with
+  `-warnAsError`, runs `tests\*_test.cc` like `build.ps1 -Test` (compiled in parallel, `ForEach-Object
+  -Parallel`), uploads `.asi` + `.pdb`. A `package` job (PRs too) builds `SDIMEFix.zip`, the players' download:
+  the Ultimate ASI Loader x64 release as `dinput8.dll` (URL + SHA-256 pinned in `.github/asi-loader.env`; the
+  download is cached under that file's hash and re-checked) and
   `plugins\SDIMEFix.asi` + `plugins\SDIMEFix-THIRD-PARTY-NOTICES.md`. On `main` the next job publishes the
   zip, `.asi`, `.pdb` and `THIRD-PARTY-NOTICES.md` (licenses of the code compiled in and of the bundled
   loader; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count). Plain asset
@@ -44,6 +46,13 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
   and dispatches `build.yml` on it (workflow-token PRs start no `pull_request` runs). The pin lives outside
   `.github/workflows` because the workflow token can't push workflow files. Needs the repo setting "Allow
   GitHub Actions to create and approve pull requests". A closed PR's branch marks its version as skipped.
+- `.github/workflows/reference.yml` — the same for the `reference\` libraries in `.github/reference.env`
+  (`<NAME>_REPO` + `_REF`, and `_TAG` or `_FILES`; `<name>` lowercase is the `reference\` folder): a matrix
+  job per `_REPO` line proposes the highest newer `vX.Y.Z` tag (dated by the tag object) or, with `_FILES`,
+  the newest default-branch commit a week old if it changes one of those files (the PR lists each file's
+  header version). Branch `reference/<name>/<tag or short SHA>`; a newer PR closes the library's older open
+  one and deletes its branch. The PR quotes the comment above the library in `reference.env` and says to
+  move the workspace's checkout; `tools\build.ps1` warns while `reference\` differs from the pins.
 - `.github/workflows/nexus-release.yml` — a **release** is a `build-<N>` prerelease un-ticked as prerelease on
   GitHub (nothing is rebuilt); the `release: released` event uploads its `SDIMEFix.zip` to the main file "SDIMEFix"
   on Nexus (primary download, sets the mod version, changelog = commits since the previous full release).
@@ -99,7 +108,9 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 Check out the matching ReShade tag in `reference\reshade`, `git submodule update --init deps/imgui`, then
 update the `IMGUI_VERSION_NUM` assert and re-verify `ImGuiInputEvent` / `InputEventsQueue` /
 `PlatformImeDataPrev` against `imgui.cpp`'s `AddInputCharacter`. Pin the same ReShade commit in
-`.github/workflows/build.yml` (`RESHADE_REF`; CI takes ImGui from it). ReShade refuses add-ons built against a
+`.github/reference.env` (`RESHADE_REF` + `RESHADE_TAG`; CI takes ImGui from it). A week after a new tag,
+`reference.yml` opens that PR itself; its build fails on the assert when ImGui moved, so do the above on its
+branch. ReShade refuses add-ons built against a
 different ImGui version (`ReShadeGetImGuiFunctionTable` returns null → logged as "ReShade not found (or
 incompatible)").
 

@@ -83,11 +83,11 @@ Visual Studio 2022（v143），Windows SDK 10.0.26100。项目需要放在工作
 `reference\reshade`：ReShade v6.8.0 源码，并初始化 `deps\imgui` 子模块。
 
 GitHub Actions 会对推送和 PR 按同样的布局编译（`-warnAsError`）并运行自动测试，依赖的确切版本见
-`.github/workflows/build.yml`；然后打包 `SDIMEFix.zip`，其中 Ultimate ASI Loader 的版本和 SHA-256 固定在
+`.github/reference.env`；然后打包 `SDIMEFix.zip`，其中 Ultimate ASI Loader 的版本和 SHA-256 固定在
 `.github/asi-loader.env`。推送到 `main` 且测试通过的构建会发布为预发布版 `build-<N>`，并作为新版本上传到
 Nexus Mods；在 GitHub 上把预发布版转为正式版，会把它上传到 Nexus 的主文件（`nexus-release.yml`）。
 `asi-loader.yml` 每月检查一次 Ultimate ASI Loader 的新版本，有新版时开 PR 更新 `asi-loader.env`；
-Dependabot 每月更新 Actions 的版本。
+`reference.yml` 对编译所用的依赖做同样的检查，开 PR 更新 `reference.env`；Dependabot 每月更新 Actions 的版本。
 
 第三方代码及其许可证见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
 
@@ -176,12 +176,13 @@ Visual Studio 2022 (v143), Windows SDK 10.0.26100. The project expects to sit at
 workspace that has `reference\reshade`: ReShade v6.8.0 source, with the `deps\imgui` submodule initialized.
 
 GitHub Actions builds pushes and pull requests in that same layout (with `-warnAsError`) and runs the
-automated tests; `.github/workflows/build.yml` lists the exact dependency versions. It then packages
+automated tests; `.github/reference.env` lists the exact dependency versions. It then packages
 `SDIMEFix.zip`, with the Ultimate ASI Loader version and SHA-256 pinned in `.github/asi-loader.env`. Builds
 of `main` that pass are published as prereleases `build-<N>` and uploaded to Nexus Mods as a new version;
 promoting a prerelease to a full release on GitHub uploads it to the Nexus main file (`nexus-release.yml`).
 `asi-loader.yml` checks monthly for a new Ultimate ASI Loader release and opens a PR that updates
-`asi-loader.env`; Dependabot updates the Actions monthly.
+`asi-loader.env`, `reference.yml` does the same for the libraries the build compiles against
+(`reference.env`), and Dependabot updates the Actions monthly.
 
 The third-party code and its licenses are listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
