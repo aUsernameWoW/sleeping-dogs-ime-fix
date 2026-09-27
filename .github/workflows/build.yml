@@ -252,7 +252,8 @@ jobs:
           persist-credentials: false
 
       # Nexus keeps every upload as a new version, so a re-run of a build it already has uploads nothing.
-      # The file is the prerelease's SDIMEFix.zip; the .pdb stays on GitHub.
+      # The file is the prerelease's SDIMEFix.zip; the .pdb stays on GitHub. Paths in the description use /:
+      # the Files tab shows file descriptions with their backslashes removed.
       - name: Package
         id: package
         env:
@@ -286,7 +287,7 @@ jobs:
           {
             echo "version=$version"
             echo "name=SDIMEFix GitHub CI Build $n"
-            echo "description=Automatic build of $short on main, untested in game. Unpack into the game folder: dinput8.dll (Ultimate ASI Loader) and plugins\\SDIMEFix.asi. Source and .pdb: https://github.com/$GITHUB_REPOSITORY/releases/tag/$version"
+            echo "description=Automatic build of $short on main, untested in game. Unpack into the game folder: dinput8.dll (Ultimate ASI Loader) and plugins/SDIMEFix.asi. Source and .pdb: https://github.com/$GITHUB_REPOSITORY/releases/tag/$version"
             delimiter="EOF_$(openssl rand -hex 8)"
             echo "changelog<<$delimiter"
             if [ -n "$since" ]; then git log --format='%s' "$since..HEAD"; else git log -n 10 --format='%s'; fi
