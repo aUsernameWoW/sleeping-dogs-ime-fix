@@ -127,7 +127,7 @@ Bugs 标签里说明情况，并附上 `plugins\SDIMEFix.log`。它记录了 mod
 - [SDmodding](https://github.com/SDmodding)，几乎全部出自 [sneakyevil](https://github.com/sneakyevil) 一人之手。这个 mod 用到了：
   - SDmodding 分享的游戏 v1.0 版 exe 和调试符号（PDB，Steam 首发版自带）：用来研究游戏怎样创建窗口、读取键盘输入；
   - [BigFileSystem](https://github.com/SDmodding/BigFileSystem)、[TheoryEngine](https://github.com/SDmodding/TheoryEngine)，以及 sneakyevil 的 [SD-BigFileExplorer](https://github.com/sneakyevil/SD-BigFileExplorer) 和 [Ekey](https://github.com/Ekey) 的 SDDEUnpacker 里的文件名列表：
-    我们照着它们写了读取游戏资源包（`.big`）的工具，横幅图参照的游戏界面贴图就是用它取出的。
+    读取游戏资源包（`.big`）的工具是照着它们写的，横幅图参照的游戏界面贴图就是用它取出的。
 
 **mod 里包含的代码**（许可证全文见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)）
 
@@ -145,7 +145,7 @@ Bugs 标签里说明情况，并附上 `plugins\SDIMEFix.log`。它记录了 mod
 **工具**
 
 - [IDA Pro](https://hex-rays.com/ida-pro)（Hex-Rays）和 [ida-pro-mcp](https://github.com/mrexodia/ida-pro-mcp)（mrexodia）：分析游戏程序。
-- [Claude Code](https://claude.com/claude-code)（Anthropic）：这个 mod 的代码、文档和逆向分析几乎全部由 Claude 完成；作者负责提出需求、把握方向和在游戏里测试，代码审查得很少。
+- [Claude Code](https://claude.com/claude-code)（Anthropic）：这个 mod 完全是用 Claude Fable 和 Opus vibe coding 写出来的，代码、文档和逆向分析都出自 Claude，几乎没有经过人工审查。
 - 字体 [Noto Sans SC/TC](https://fonts.google.com/noto)、[Teko](https://fonts.google.com/specimen/Teko)、[Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed)：横幅图和图标。
 
 **游戏与商标**
@@ -288,7 +288,7 @@ This mod uses or builds on the work of these people and projects. Thank you.
   - the game's v1.0 exe and its debug symbols (PDB, shipped with the original Steam release), shared by
     SDmodding: used to study how the game creates its window and reads the keyboard;
   - [BigFileSystem](https://github.com/SDmodding/BigFileSystem), [TheoryEngine](https://github.com/SDmodding/TheoryEngine), and the file name lists in sneakyevil's [SD-BigFileExplorer](https://github.com/sneakyevil/SD-BigFileExplorer) and in [Ekey](https://github.com/Ekey)'s
-    SDDEUnpacker: our tool for reading the game's `.big` archives follows them; the game's UI textures the banner is modelled on were taken out with it.
+    SDDEUnpacker: the tool that reads the game's `.big` archives follows them; the game's UI textures the banner is modelled on were taken out with it.
 
 **Code in the mod** (full license texts in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md))
 
@@ -308,9 +308,8 @@ This mod uses or builds on the work of these people and projects. Thank you.
 **Tools**
 
 - [IDA Pro](https://hex-rays.com/ida-pro) (Hex-Rays) and [ida-pro-mcp](https://github.com/mrexodia/ida-pro-mcp) (mrexodia): analyzing the game's code.
-- [Claude Code](https://claude.com/claude-code) (Anthropic): almost all of this mod's code, documentation and reverse
-  engineering was done by Claude; the author set the goals, steered and tested in game, and reviewed little of the
-  code.
+- [Claude Code](https://claude.com/claude-code) (Anthropic): this mod was fully vibe-coded with Claude Fable and Opus; its code,
+  documentation and reverse engineering are all Claude's, with little human review.
 - The fonts [Noto Sans SC/TC](https://fonts.google.com/noto), [Teko](https://fonts.google.com/specimen/Teko) and [Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed): the banner and the icon.
 
 **The game and trademarks**
