@@ -120,7 +120,38 @@ Bugs 标签里说明情况，并附上 `plugins\SDIMEFix.log`。它记录了 mod
 
 ### 致谢
 
-感谢 [SDmodding](https://github.com/SDmodding) 社区公开的《热血无赖》研究资料和工具，开发这个 mod 时用到了它们。
+这个 mod 用到或参考了下面这些人和项目的成果，在此致谢。
+
+**研究资料**
+
+- [SDmodding](https://github.com/SDmodding)，几乎全部出自 [sneakyevil](https://github.com/sneakyevil) 一人之手。这个 mod 用到了：
+  - SDmodding 分享的游戏 v1.0 版 exe 和调试符号（PDB，Steam 首发版自带）：用来研究游戏怎样创建窗口、读取键盘输入；
+  - [BigFileSystem](https://github.com/SDmodding/BigFileSystem)、[TheoryEngine](https://github.com/SDmodding/TheoryEngine)，以及 sneakyevil 的 [SD-BigFileExplorer](https://github.com/sneakyevil/SD-BigFileExplorer) 和 [Ekey](https://github.com/Ekey) 的 SDDEUnpacker 里的文件名列表：
+    我们照着它们写了读取游戏资源包（`.big`）的工具，横幅图参照的游戏界面贴图就是用它取出的。
+
+**mod 里包含的代码**（许可证全文见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)）
+
+- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader)（ThirteenAG）：压缩包里的 `dinput8.dll`，让游戏加载 mod。它本身还包含 MinHook、
+  [miniz](https://github.com/richgel999/miniz)（Rich Geldreich 等）和 [praydog](https://github.com/praydog) 的 FunctionHookMinHook。
+- [ReShade](https://github.com/crosire/reshade)（crosire）的插件接口和 [Dear ImGui](https://github.com/ocornut/imgui)（Omar Cornut）：在 ReShade 界面里输入中文；把文字交给 ImGui 的
+  那段代码改编自 Dear ImGui。
+
+**参考与灵感**
+
+- [InputFix](https://github.com/zlainsama/InputFix)（zlainsama）等 Minecraft 输入法修复 mod：这个 mod 的思路来自它们。
+- [PowerToys](https://github.com/microsoft/PowerToys)（Microsoft）：屏蔽 Win+空格时不让开始菜单弹出，用的是和它一样的办法。
+- Microsoft Learn 上的[输入法管理器（IMM32）文档](https://learn.microsoft.com/windows/win32/intl/input-method-manager)。
+
+**工具**
+
+- [IDA Pro](https://hex-rays.com/ida-pro)（Hex-Rays）和 [ida-pro-mcp](https://github.com/mrexodia/ida-pro-mcp)（mrexodia）：分析游戏程序。
+- [Claude Code](https://claude.com/claude-code)（Anthropic）：这个 mod 是在 AI 辅助下开发的，代码、文档和逆向分析由作者和 Claude 一起完成。
+- 字体 [Noto Sans SC/TC](https://fonts.google.com/noto)、[Teko](https://fonts.google.com/specimen/Teko)、[Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed)：横幅图和图标。
+
+**游戏与商标**
+
+《热血无赖：终极版》（Sleeping Dogs: Definitive Edition）由 United Front Games 开发、Square Enix 发行，
+游戏及其内容的版权归 Square Enix 所有。横幅图和图标仿照游戏的菜单界面重新绘制，没有使用游戏原图。Windows 和 PowerToys 是 Microsoft 的商标。
 
 与 Square Enix、United Front Games、Microsoft 均无关联。
 
@@ -249,7 +280,41 @@ which usually shows what went wrong.
 
 ### Credits
 
-Thanks to the [SDmodding](https://github.com/SDmodding) community for the Sleeping Dogs research and tools they
-share, which went into making this mod.
+This mod uses or builds on the work of these people and projects. Thank you.
+
+**Research**
+
+- [SDmodding](https://github.com/SDmodding), almost all of it the work of one person, [sneakyevil](https://github.com/sneakyevil). This mod used:
+  - the game's v1.0 exe and its debug symbols (PDB, shipped with the original Steam release), shared by
+    SDmodding: used to study how the game creates its window and reads the keyboard;
+  - [BigFileSystem](https://github.com/SDmodding/BigFileSystem), [TheoryEngine](https://github.com/SDmodding/TheoryEngine), and the file name lists in sneakyevil's [SD-BigFileExplorer](https://github.com/sneakyevil/SD-BigFileExplorer) and in [Ekey](https://github.com/Ekey)'s
+    SDDEUnpacker: our tool for reading the game's `.big` archives follows them; the game's UI textures the banner is modelled on were taken out with it.
+
+**Code in the mod** (full license texts in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md))
+
+- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) (ThirteenAG): the `dinput8.dll` in the zip, which makes the game load mods.
+  It contains MinHook, [miniz](https://github.com/richgel999/miniz) (Rich Geldreich and others) and [praydog](https://github.com/praydog)'s FunctionHookMinHook.
+- [ReShade](https://github.com/crosire/reshade) (crosire) add-on API and [Dear ImGui](https://github.com/ocornut/imgui) (Omar Cornut): typing Chinese into ReShade's overlay; the
+  code that hands the text to ImGui is adapted from Dear ImGui.
+
+**References and inspiration**
+
+- [InputFix](https://github.com/zlainsama/InputFix) (zlainsama) and the other Minecraft IME fix mods: where the idea
+  came from.
+- [PowerToys](https://github.com/microsoft/PowerToys) (Microsoft): blocking Win+Space without the Start menu popping
+  up works the same way it does there.
+- Microsoft Learn's [Input Method Manager (IMM32) documentation](https://learn.microsoft.com/windows/win32/intl/input-method-manager).
+
+**Tools**
+
+- [IDA Pro](https://hex-rays.com/ida-pro) (Hex-Rays) and [ida-pro-mcp](https://github.com/mrexodia/ida-pro-mcp) (mrexodia): analyzing the game's code.
+- [Claude Code](https://claude.com/claude-code) (Anthropic): this mod was developed with AI assistance; its code, documentation and reverse
+  engineering were done by the author together with Claude.
+- The fonts [Noto Sans SC/TC](https://fonts.google.com/noto), [Teko](https://fonts.google.com/specimen/Teko) and [Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed): the banner and the icon.
+
+**The game and trademarks**
+
+Sleeping Dogs: Definitive Edition was developed by United Front Games and published by Square Enix; the game
+and its content are © Square Enix. The banner and the icon redraw the look of the game's menus; no game art is used in them. Windows and PowerToys are trademarks of Microsoft.
 
 Not affiliated with Square Enix, United Front Games or Microsoft.
