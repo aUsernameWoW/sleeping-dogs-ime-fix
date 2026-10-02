@@ -118,6 +118,10 @@ ReShade 界面里。用其他版本的 ReShade 时只是这一项不起作用，
 在 [GitHub Issues](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/issues) 或 Nexus Mods 页面的
 Bugs 标签里说明情况，并附上 `plugins\SDIMEFix.log`。它记录了 mod 每一步做了什么，通常看一眼就能找到原因。
 
+### 致谢
+
+感谢 [SDmodding](https://github.com/SDmodding) 社区公开的《热血无赖》研究资料和工具，开发这个 mod 时用到了它们。
+
 与 Square Enix、United Front Games、Microsoft 均无关联。
 
 ## English
@@ -242,5 +246,10 @@ Delete `SDIMEFix.asi`, `SDIMEFix.ini` and `SDIMEFix.log` from `plugins`. If no o
 Describe it in [GitHub Issues](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/issues) or on the Bugs
 tab of the Nexus Mods page, and attach `plugins\SDIMEFix.log`. It records what the mod did, step by step,
 which usually shows what went wrong.
+
+### Credits
+
+Thanks to the [SDmodding](https://github.com/SDmodding) community for the Sleeping Dogs research and tools they
+share, which went into making this mod.
 
 Not affiliated with Square Enix, United Front Games or Microsoft.

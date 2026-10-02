@@ -89,6 +89,12 @@ Nexus Mods；在 GitHub 上把预发布版转为正式版，会把它上传到 N
 `asi-loader.yml` 每月检查一次 Ultimate ASI Loader 的新版本，有新版时开 PR 更新 `asi-loader.env`；
 `reference.yml` 对编译所用的依赖做同样的检查，开 PR 更新 `reference.env`；Dependabot 每月更新 Actions 的版本。
 
+### 致谢
+
+- [SDmodding](https://github.com/SDmodding)：旧版 exe 的 PDB 和 IDA 数据库，用来弄清游戏怎样处理窗口和键盘输入。
+- [ReShade](https://github.com/crosire/reshade) 的插件 API 和 Dear ImGui。
+- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader)。
+
 第三方代码及其许可证见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
 
 与 Square Enix、United Front Games、Microsoft 均无关联。
@@ -183,6 +189,13 @@ promoting a prerelease to a full release on GitHub uploads it to the Nexus main 
 `asi-loader.yml` checks monthly for a new Ultimate ASI Loader release and opens a PR that updates
 `asi-loader.env`, `reference.yml` does the same for the libraries the build compiles against
 (`reference.env`), and Dependabot updates the Actions monthly.
+
+### Credits
+
+- [SDmodding](https://github.com/SDmodding): the legacy exe's PDB and IDA database, for working out how the
+  game handles its window and keyboard input.
+- [ReShade](https://github.com/crosire/reshade) add-on API and Dear ImGui.
+- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader).
 
 The third-party code and its licenses are listed in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
