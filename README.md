@@ -24,15 +24,13 @@
 
 它不改动游戏原有的文件，也不影响存档，删掉就能卸载。
 
-> 适用于**任何版本**的《热血无赖：终极版》，Windows 10/11 64 位。只想换设置、已经装过其他 mod，或者想自己
-> 编译，请看 [ADVANCED.md](ADVANCED.md)。
+> 适用于**任何版本**的《热血无赖：终极版》，Windows 10/11 64 位。只想换设置、已经装过其他 mod，或者想自己编译，请看 [ADVANCED.md](ADVANCED.md)。
 
 ### 安装（大约两分钟）
 
 **第 1 步：下载**
 
-点这里下载 **[SDIMEFix.zip](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/releases/latest/download/SDIMEFix.zip)**。
-也可以在 [Nexus Mods](https://www.nexusmods.com/sleepingdogsdefinitiveedition/mods/172?tab=files) 的 Files
+点这里下载 **[SDIMEFix.zip](https://github.com/aUsernameWoW/sleeping-dogs-ime-fix/releases/latest/download/SDIMEFix.zip)**。也可以在 [Nexus Mods](https://www.nexusmods.com/sleepingdogsdefinitiveedition/mods/172?tab=files) 的 Files
 页面下载主文件 “SDIMEFix”，内容相同。
 
 压缩包里只有这些：
@@ -50,15 +48,13 @@ plugins\
 2. 在左侧列表里右键点「Sleeping Dogs: Definitive Edition」→「管理」→「浏览本地文件」。
 3. 弹出来的就是游戏文件夹，里面有 `sdhdship.exe`（如果电脑不显示扩展名，就是一个叫 `sdhdship` 的程序）。
 
-一般在 `C:\Program Files (x86)\Steam\steamapps\common\SleepingDogsDefinitiveEdition`，装在别的盘时路径会不一样。
-不是 Steam 版的话，打开游戏的安装文件夹（游戏主程序 `.exe` 所在的地方）就行，后面的步骤一样。
+一般在 `C:\Program Files (x86)\Steam\steamapps\common\SleepingDogsDefinitiveEdition`，装在别的盘时路径会不一样。不是 Steam 版的话，打开游戏的安装文件夹（游戏主程序 `.exe` 所在的地方）就行，后面的步骤一样。
 
 **第 3 步：把文件放进去**
 
 1. 双击打开下载的 `SDIMEFix.zip`。
 2. 选中里面的 `dinput8.dll` 和 `plugins` 文件夹，一起拖进第 2 步打开的游戏文件夹。
-3. 如果 Windows 弹出「替换或跳过文件」，说明游戏文件夹里已经有 `dinput8.dll` 了（你以前装过别的 mod，
-   加载器已经在了），选「跳过该文件」。已有的 `plugins` 文件夹会自动合并，不用管。
+3. 如果 Windows 弹出「替换或跳过文件」，说明游戏文件夹里已经有 `dinput8.dll` 了（你以前装过别的 mod，加载器已经在了），选「跳过该文件」。已有的 `plugins` 文件夹会自动合并，不用管。
 
 放好后，游戏文件夹里应该是这样（只列出相关的部分）：
 
@@ -88,20 +84,16 @@ SleepingDogsDefinitiveEdition\
 
 - `dinput8.dll` 是不是直接放在游戏文件夹里、和 `sdhdship.exe` 在一起（而不是放进了 `plugins` 或其他子文件夹）；
 - `SDIMEFix.asi` 是不是在 `plugins` 文件夹里；
-- 杀毒软件（包括 Windows 安全中心）有没有删掉或隔离 `dinput8.dll`。ASI 加载器的原理是让游戏把它当成系统文件
-  加载，偶尔会被误报。可以在隔离区里还原它，并把游戏文件夹加入排除项；
-- 如果第 3 步跳过了游戏文件夹里原有的 `dinput8.dll`，那个文件可能不是 ASI 加载器。把它备份到别处，
-  再换成压缩包里的这个。
+- 杀毒软件（包括 Windows 安全中心）有没有删掉或隔离 `dinput8.dll`。ASI 加载器的原理是让游戏把它当成系统文件加载，偶尔会被误报。可以在隔离区里还原它，并把游戏文件夹加入排除项；
+- 如果第 3 步跳过了游戏文件夹里原有的 `dinput8.dll`，那个文件可能不是 ASI 加载器。把它备份到别处，再换成压缩包里的这个。
 
 **装了之后游戏打不开**
 
-先把 `plugins\SDIMEFix.asi` 移出游戏文件夹再试。如果还是打不开，问题不在这个 mod；如果能打开了，请按下面的
-方法反馈。
+先把 `plugins\SDIMEFix.asi` 移出游戏文件夹再试。如果还是打不开，问题不在这个 mod；如果能打开了，请按下面的方法反馈。
 
 **想在 ReShade 里打中文**
 
-需要安装带完整插件支持的 ReShade（安装包名字里有 “Addon”，也就是 “with full add-on support” 版本），
-目前只支持 **ReShade 6.8.0**。装好后按 Home 打开 ReShade，在搜索框里就能用输入法打字，候选词直接显示在
+需要安装带完整插件支持的 ReShade（安装包名字里有 “Addon”，也就是 “with full add-on support” 版本），目前只支持 **ReShade 6.8.0**。装好后按 Home 打开 ReShade，在搜索框里就能用输入法打字，候选词直接显示在
 ReShade 界面里。用其他版本的 ReShade 时只是这一项不起作用，其余功能照常。
 
 **想关掉某项功能**
@@ -110,13 +102,11 @@ ReShade 界面里。用其他版本的 ReShade 时只是这一项不起作用，
 
 **以前装过 SDInputFix**
 
-那是这个 mod 以前的名字。删掉 `plugins\SDInputFix.asi`，不然新旧两个版本会同时运行。想保留原来的设置的话，
-把 `SDInputFix.ini` 改名为 `SDIMEFix.ini`。
+那是这个 mod 以前的名字。删掉 `plugins\SDInputFix.asi`，不然新旧两个版本会同时运行。想保留原来的设置的话，把 `SDInputFix.ini` 改名为 `SDIMEFix.ini`。
 
 **更新**
 
-下载新的 `SDIMEFix.zip`，只把里面的 `plugins` 文件夹拖进游戏文件夹，Windows 询问时选「替换目标中的文件」。
-`SDIMEFix.ini` 不在压缩包里，你的设置会保留。
+下载新的 `SDIMEFix.zip`，只把里面的 `plugins` 文件夹拖进游戏文件夹，Windows 询问时选「替换目标中的文件」。`SDIMEFix.ini` 不在压缩包里，你的设置会保留。
 
 **卸载**
 
@@ -137,15 +127,12 @@ Bugs 标签里说明情况，并附上 `plugins\SDIMEFix.log`。它记录了 mod
 - [SDmodding](https://github.com/SDmodding)，几乎全部出自 [sneakyevil](https://github.com/sneakyevil) 一人之手。这个 mod 用到了：
   - SDmodding 随 [SDK](https://github.com/SDmodding/SDK) 发布的 [Visual Studio 2022 项目模板](https://github.com/SDmodding/SDK/releases/tag/vs2022)：这个 mod 的 Visual Studio 工程源自这个模板，编译设置和以 `dllmain.cc` 为起点的源文件结构都来自它；
   - SDmodding 分享的游戏 v1.0 版 exe 和调试符号（PDB，Steam 首发版自带）：用来研究游戏怎样创建窗口、读取键盘输入；
-  - [BigFileSystem](https://github.com/SDmodding/BigFileSystem)、[TheoryEngine](https://github.com/SDmodding/TheoryEngine)，以及 sneakyevil 的 [SD-BigFileExplorer](https://github.com/sneakyevil/SD-BigFileExplorer) 和 [Ekey](https://github.com/Ekey) 的 SDDEUnpacker 里的文件名列表：
-    读取游戏资源包（`.big`）的工具是照着它们写的，横幅图参照的游戏界面贴图就是用它取出的。
+  - [BigFileSystem](https://github.com/SDmodding/BigFileSystem)、[TheoryEngine](https://github.com/SDmodding/TheoryEngine)，以及 sneakyevil 的 [SD-BigFileExplorer](https://github.com/sneakyevil/SD-BigFileExplorer) 和 [Ekey](https://github.com/Ekey) 的 SDDEUnpacker 里的文件名列表：读取游戏资源包（`.big`）的工具是照着它们写的，横幅图参照的游戏界面贴图就是用它取出的。
 
 **mod 里包含的代码**（许可证全文见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)）
 
-- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader)（ThirteenAG）：压缩包里的 `dinput8.dll`，让游戏加载 mod。它本身还包含 MinHook、
-  [miniz](https://github.com/richgel999/miniz)（Rich Geldreich 等）和 [praydog](https://github.com/praydog) 的 FunctionHookMinHook。
-- [ReShade](https://github.com/crosire/reshade)（crosire）的插件接口和 [Dear ImGui](https://github.com/ocornut/imgui)（Omar Cornut）：在 ReShade 界面里输入中文；把文字交给 ImGui 的
-  那段代码改编自 Dear ImGui。
+- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader)（ThirteenAG）：压缩包里的 `dinput8.dll`，让游戏加载 mod。它本身还包含 MinHook、[miniz](https://github.com/richgel999/miniz)（Rich Geldreich 等）和 [praydog](https://github.com/praydog) 的 FunctionHookMinHook。
+- [ReShade](https://github.com/crosire/reshade)（crosire）的插件接口和 [Dear ImGui](https://github.com/ocornut/imgui)（Omar Cornut）：在 ReShade 界面里输入中文；把文字交给 ImGui 的那段代码改编自 Dear ImGui。
 
 **参考与灵感**
 
@@ -161,8 +148,7 @@ Bugs 标签里说明情况，并附上 `plugins\SDIMEFix.log`。它记录了 mod
 
 **游戏与商标**
 
-《热血无赖：终极版》（Sleeping Dogs: Definitive Edition）由 United Front Games 开发、Square Enix 发行，
-游戏及其内容的版权归 Square Enix 所有。横幅图和图标仿照游戏的菜单界面重新绘制，没有使用游戏原图。Windows 和 PowerToys 是 Microsoft 的商标。
+《热血无赖：终极版》（Sleeping Dogs: Definitive Edition）由 United Front Games 开发、Square Enix 发行，游戏及其内容的版权归 Square Enix 所有。横幅图和图标仿照游戏的菜单界面重新绘制，没有使用游戏原图。Windows 和 PowerToys 是 Microsoft 的商标。
 
 与 Square Enix、United Front Games、Microsoft 均无关联。
 

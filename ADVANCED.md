@@ -20,14 +20,12 @@
 
 ### 原理
 
-这个游戏在设计时没有考虑输入法：开着中文输入法时，在游戏里按 Shift 或打字会弹出输入法窗口，把游戏从独占全屏
-踢回窗口模式。本 mod 的思路和 Minecraft 1.7.10 的 "InputFix" 类 mod 一样：
+这个游戏在设计时没有考虑输入法：开着中文输入法时，在游戏里按 Shift 或打字会弹出输入法窗口，把游戏从独占全屏踢回窗口模式。本 mod 的思路和 Minecraft 1.7.10 的 "InputFix" 类 mod 一样：
 
 - **游戏内**：让输入法和游戏窗口脱钩（`ImmAssociateContextEx(hwnd, NULL, 0)`），中文模式下按 Shift / WASD
   都不会再弹出输入法界面。
 - **热键**：游戏在前台时，屏蔽切换输入法的热键（Ctrl+Shift、Alt+Shift、Win+Space）。
-- **游戏内界面（可选，需要 ReShade）**：作为 ReShade 插件运行，在 ReShade 的文本框里打字时重新接上输入法，
-  拼音组字和候选词直接画在界面里，不用退出全屏就能用输入法打字。
+- **游戏内界面（可选，需要 ReShade）**：作为 ReShade 插件运行，在 ReShade 的文本框里打字时重新接上输入法，拼音组字和候选词直接画在界面里，不用退出全屏就能用输入法打字。
 
 各部分的实现和设计取舍见 [CLAUDE.md](CLAUDE.md)（英文）。
 
@@ -35,13 +33,11 @@
 
 ### 需求
 
-- 任何版本的《热血无赖：终极版》，Windows 10/11 x64。mod 只用 Win32 层面的钩子（exe 的导入表、窗口消息、
-  IMM32），不含任何硬编码的游戏地址，所以和游戏的 exe 版本、发行平台无关。
+- 任何版本的《热血无赖：终极版》，Windows 10/11 x64。mod 只用 Win32 层面的钩子（exe 的导入表、窗口消息、IMM32），不含任何硬编码的游戏地址，所以和游戏的 exe 版本、发行平台无关。
 - 任意 ASI 加载器，例如 [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader)（`SDIMEFix.zip`
   里自带一份，作为 `dinput8.dll`）。
 - 可选：支持插件的 [ReShade](https://reshade.me) **6.8.0**，只有在 ReShade 界面里输入中文这一项需要。ReShade
-  只接受用同一版本 Dear ImGui 编译的插件，版本不符时日志里会写 "ReShade not found (or incompatible)"，
-  其余功能照常工作。
+  只接受用同一版本 Dear ImGui 编译的插件，版本不符时日志里会写 "ReShade not found (or incompatible)"，其余功能照常工作。
 
 ### 下载
 
@@ -54,9 +50,7 @@
 | `SDIMEFix.pdb` | 调试符号，只在分析崩溃转储时需要 |
 | `THIRD-PARTY-NOTICES.md` | 第三方代码的许可证 |
 
-`main` 上每次提交都会自动编译、测试并发布为预发布版 `build-<N>`（没有在游戏里测过）。在游戏里验证过的构建会被
-转为正式版；README 里的下载链接指向最新的正式版。Nexus Mods 上主文件 “SDIMEFix” 是正式版，
-“SDIMEFix GitHub CI Build” 是每次的预发布版，都是同一个 `SDIMEFix.zip`。
+`main` 上每次提交都会自动编译、测试并发布为预发布版 `build-<N>`（没有在游戏里测过）。在游戏里验证过的构建会被转为正式版；README 里的下载链接指向最新的正式版。Nexus Mods 上主文件 “SDIMEFix” 是正式版，“SDIMEFix GitHub CI Build” 是每次的预发布版，都是同一个 `SDIMEFix.zip`。
 
 ### 装进已有的 mod 环境
 
@@ -84,8 +78,7 @@
 
 ### Wine / Proton
 
-没有测试过。Wine 默认优先加载自带的 `dinput8.dll`，要用 `SDIMEFix.zip` 里的加载器，需要在 Steam 的启动选项里
-填 `WINEDLLOVERRIDES="dinput8=n,b" %command%`。
+没有测试过。Wine 默认优先加载自带的 `dinput8.dll`，要用 `SDIMEFix.zip` 里的加载器，需要在 Steam 的启动选项里填 `WINEDLLOVERRIDES="dinput8=n,b" %command%`。
 
 ### 编译
 
@@ -95,9 +88,7 @@ Visual Studio 2022（v143），Windows SDK 10.0.26100。项目需要放在工作
 GitHub Actions 会对推送和 PR 按同样的布局编译（`-warnAsError`）并运行自动测试，依赖的确切版本见
 `.github/reference.env`；然后打包 `SDIMEFix.zip`，其中 Ultimate ASI Loader 的版本和 SHA-256 固定在
 `.github/asi-loader.env`。推送到 `main` 且测试通过的构建会发布为预发布版 `build-<N>`，并作为新版本上传到
-Nexus Mods；在 GitHub 上把预发布版转为正式版，会把它上传到 Nexus 的主文件（`nexus-release.yml`）。
-`asi-loader.yml` 每月检查一次 Ultimate ASI Loader 的新版本，有新版时开 PR 更新 `asi-loader.env`；
-`reference.yml` 对编译所用的依赖做同样的检查，开 PR 更新 `reference.env`；Dependabot 每月更新 Actions 的版本。
+Nexus Mods；在 GitHub 上把预发布版转为正式版，会把它上传到 Nexus 的主文件（`nexus-release.yml`）。`asi-loader.yml` 每月检查一次 Ultimate ASI Loader 的新版本，有新版时开 PR 更新 `asi-loader.env`；`reference.yml` 对编译所用的依赖做同样的检查，开 PR 更新 `reference.env`；Dependabot 每月更新 Actions 的版本。
 
 ### 致谢
 
@@ -108,15 +99,12 @@ Nexus Mods；在 GitHub 上把预发布版转为正式版，会把它上传到 N
 - [SDmodding](https://github.com/SDmodding)，几乎全部出自 [sneakyevil](https://github.com/sneakyevil) 一人之手。这个 mod 用到了：
   - SDmodding 随 [SDK](https://github.com/SDmodding/SDK) 发布的 [Visual Studio 2022 项目模板](https://github.com/SDmodding/SDK/releases/tag/vs2022)：这个 mod 的 Visual Studio 工程源自这个模板，编译设置和以 `dllmain.cc` 为起点的源文件结构都来自它；
   - SDmodding 分享的游戏 v1.0 版 exe 和调试符号（PDB，Steam 首发版自带）：用来研究游戏怎样创建窗口、读取键盘输入；
-  - [BigFileSystem](https://github.com/SDmodding/BigFileSystem)、[TheoryEngine](https://github.com/SDmodding/TheoryEngine)，以及 sneakyevil 的 [SD-BigFileExplorer](https://github.com/sneakyevil/SD-BigFileExplorer) 和 [Ekey](https://github.com/Ekey) 的 SDDEUnpacker 里的文件名列表：
-    读取游戏资源包（`.big`）的工具是照着它们写的，横幅图参照的游戏界面贴图就是用它取出的。
+  - [BigFileSystem](https://github.com/SDmodding/BigFileSystem)、[TheoryEngine](https://github.com/SDmodding/TheoryEngine)，以及 sneakyevil 的 [SD-BigFileExplorer](https://github.com/sneakyevil/SD-BigFileExplorer) 和 [Ekey](https://github.com/Ekey) 的 SDDEUnpacker 里的文件名列表：读取游戏资源包（`.big`）的工具是照着它们写的，横幅图参照的游戏界面贴图就是用它取出的。
 
 **mod 里包含的代码**（许可证全文见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)）
 
-- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader)（ThirteenAG）：压缩包里的 `dinput8.dll`，让游戏加载 mod。它本身还包含 MinHook、
-  [miniz](https://github.com/richgel999/miniz)（Rich Geldreich 等）和 [praydog](https://github.com/praydog) 的 FunctionHookMinHook。
-- [ReShade](https://github.com/crosire/reshade)（crosire）的插件接口和 [Dear ImGui](https://github.com/ocornut/imgui)（Omar Cornut）：在 ReShade 界面里输入中文；把文字交给 ImGui 的
-  那段代码改编自 Dear ImGui。
+- [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader)（ThirteenAG）：压缩包里的 `dinput8.dll`，让游戏加载 mod。它本身还包含 MinHook、[miniz](https://github.com/richgel999/miniz)（Rich Geldreich 等）和 [praydog](https://github.com/praydog) 的 FunctionHookMinHook。
+- [ReShade](https://github.com/crosire/reshade)（crosire）的插件接口和 [Dear ImGui](https://github.com/ocornut/imgui)（Omar Cornut）：在 ReShade 界面里输入中文；把文字交给 ImGui 的那段代码改编自 Dear ImGui。
 
 **参考与灵感**
 
@@ -132,8 +120,7 @@ Nexus Mods；在 GitHub 上把预发布版转为正式版，会把它上传到 N
 
 **游戏与商标**
 
-《热血无赖：终极版》（Sleeping Dogs: Definitive Edition）由 United Front Games 开发、Square Enix 发行，
-游戏及其内容的版权归 Square Enix 所有。横幅图和图标仿照游戏的菜单界面重新绘制，没有使用游戏原图。Windows 和 PowerToys 是 Microsoft 的商标。
+《热血无赖：终极版》（Sleeping Dogs: Definitive Edition）由 United Front Games 开发、Square Enix 发行，游戏及其内容的版权归 Square Enix 所有。横幅图和图标仿照游戏的菜单界面重新绘制，没有使用游戏原图。Windows 和 PowerToys 是 Microsoft 的商标。
 
 与 Square Enix、United Front Games、Microsoft 均无关联。
 
