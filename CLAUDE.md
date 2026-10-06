@@ -36,7 +36,11 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
   `plugins\SDIMEFix.asi` + `plugins\SDIMEFix-THIRD-PARTY-NOTICES.md`. On `main` the next job publishes the
   zip, `.asi`, `.pdb` and `THIRD-PARTY-NOTICES.md` (licenses of the code compiled in and of the bundled
   loader; keep it in step with the dependencies) as prerelease `build-<N>` (N = commit count). Plain asset
-  names matter: README.md links `releases/latest/download/SDIMEFix.zip`. A last job uploads that zip to
+  names matter: README.md links `releases/latest/download/SDIMEFix.zip`. Before creating the release it
+  attests the zip, `.asi` and `.pdb` (`actions/attest`: SLSA build provenance signed with a Sigstore
+  certificate for the run, kept under the repo's Attestations; `id-token` + `attestations: write` on that job
+  only) and links the attestation in the release notes; `gh attestation verify <file> -R <owner/repo>`
+  checks a download (ADVANCED.md says so too). A last job uploads that zip to
   [Nexus Mods](https://www.nexusmods.com/sleepingdogsdefinitiveedition/mods/172) as the next version of the
   "SDIMEFix GitHub CI Build" file (`Nexus-Mods/upload-action`, v3 API), version `build-<N>`, previous version
   archived.
