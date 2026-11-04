@@ -67,8 +67,9 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
 - Nexus settings: repo variables `NEXUS_MOD_ID`, `NEXUS_CI_FILE_ID`, `NEXUS_RELEASE_FILE_ID` (v3 IDs from a
   file's "Advanced" dialog: "Unique Mod ID" / "File ID", not the `172` in the URL) and secret
   `NEXUSMODS_API_KEY`. Without `NEXUS_CI_FILE_ID` the CI upload is skipped. Until `NEXUS_RELEASE_FILE_ID`
-  is set the CI builds are the main file and carry the mod version + changelog; after that they go to
-  Optional. Versions Nexus already has are not uploaded again, so re-runs are safe. Current values: mod
+  is set the CI builds are the main file and carry the mod version; after that they go to Optional. Every CI
+  build sends its changelog (commits since the version Nexus has) either way, since 2026-11-04 (the user wants
+  each build in the mod's changelog, like GitHub's prereleases; before, they stopped once a release existed). Versions Nexus already has are not uploaded again, so re-runs are safe. Current values: mod
   `14933601288364`, CI file `8021523`, release file `8021700`.
 - Actions are pinned by commit SHA; `.github/dependabot.yml` proposes updates monthly.
 - `README.md` — for players with no modding experience: what it fixes, step-by-step install of
