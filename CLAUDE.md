@@ -42,7 +42,7 @@ in-game (fullscreen, Microsoft Pinyin, ReShade 6.8.0).
   only) and links the attestation in the release notes; `gh attestation verify <file> -R <owner/repo>`
   checks a download (ADVANCED.md says so too). A last job uploads that zip to
   [Nexus Mods](https://www.nexusmods.com/sleepingdogsdefinitiveedition/mods/172) as the next version of the
-  "SDIMEFix GitHub CI Build" file (`Nexus-Mods/upload-action`, v3 API), version `build-<N>`, previous version
+  "SDIMEFix Beta Build" file (`Nexus-Mods/upload-action`, v3 API), version `build-<N>`, previous version
   archived.
 - `.github/workflows/asi-loader.yml` — Dependabot stand-in for the bundled loader (Dependabot has no
   ecosystem for GitHub release assets): monthly, if Ultimate ASI Loader has a release newer than the pin and
